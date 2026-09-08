@@ -1,27 +1,34 @@
 # Sales Performance Dashboard
 
-**Type:** Portfolio project using demo sales data  
-**Tools:** Microsoft Excel, PivotTables, formulas, KPI cards, charts
+**Type:** Portfolio project using fictional demo sales data  
+**Tools:** Microsoft Excel concepts, PivotTables/formulas, KPI design, HTML/CSS/Chart.js interactive preview
 
 ## Objective
-Create a compact dashboard that helps a manager understand sales performance quickly.
+Create a compact sales-performance dashboard that helps a manager quickly understand revenue, target attainment, sales-representative performance, and product mix.
 
 ## What I analyzed
-- Total revenue
-- Order volume
-- Average order value
-- Profit margin
-- Monthly trends
-- Product/category performance
+- YTD revenue
+- Deals closed
+- Average deal size
+- Conversion rate
+- Target attainment
+- Monthly revenue trends
+- Sales representative performance
+- Product category mix
 
 ## What I did
-- Cleaned and structured demo sales data for analysis.
-- Used PivotTables and formulas to summarize revenue, orders, categories, and margin.
-- Created KPI cards and trend charts for quick review.
-- Applied filters, sorting, and clear formatting so the report is easy to update.
+- Structured demo sales data for analysis.
+- Designed management-focused KPI cards and charts.
+- Compared monthly actual revenue against targets.
+- Summarized revenue by sales representative and product category.
+- Added management highlights to surface key takeaways quickly.
+- Built a responsive interactive preview in English for portfolio presentation.
+
+## Interactive preview
+[Open the dashboard HTML](dashboard.html)
 
 ## Business value
-The dashboard turns transaction-level data into a one-page decision view, making it easier to spot growth, underperforming categories, and changes in order behavior.
+The dashboard turns transaction-level demo data into a concise executive view, making it easier to identify sales momentum, target performance, top contributors, and category mix.
 
-## Status
-Portfolio / practice project. Demo data only.
+## Portfolio note
+This is a practice/portfolio project using fictional data. The interactive preview is built with HTML, CSS, and Chart.js and should not be represented as a production Power BI report or a real company dashboard.

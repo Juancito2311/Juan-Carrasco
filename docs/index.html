@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Calculadoras educativas de matemáticas, física, química, medicina, laboratorio, pH, medicamentos y anatomía para estudiar y practicar." />
+  <meta name="robots" content="index,follow" />
+  <title>NexoCiencia Lab | Herramientas de ciencias y medicina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+:root{
+  --bg:#07111f;
+  --panel:#0d1a2b;
+  --panel-2:#11213a;
+  --border:#223755;
+  --text:#f5f7fb;
+  --muted:#93a7c0;
+  --accent:#4fb6ff;
+  --accent2:#7e62ff;
+  --success:#55d39f;
+  --warn:#f2c262;
+  --danger:#ff6f81;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;color:var(--text);background:radial-gradient(circle at 85% 15%, rgba(79,182,255,.12), transparent 28%),radial-gradient(circle at 10% 85%, rgba(126,98,255,.12), transparent 28%),var(--bg);min-height:100vh}
+button,input,select{font:inherit} button{cursor:pointer}
+input,select{width:100%;background:#081523;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px 13px;outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,182,255,.08)}
+.layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;padding:28px 20px;border-right:1px solid var(--border);background:rgba(7,17,31,.82);backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:30px}.logo{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:25px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 15px 35px rgba(79,182,255,.2)}
+.brand h1{font-size:20px}.brand p{font-size:12px;color:var(--muted);margin-top:4px}
+.nav{display:grid;gap:9px}.nav-btn{width:100%;display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--muted);font-weight:700;text-align:left}.nav-btn:hover{background:#102139;color:white}.nav-btn.active{color:white;background:linear-gradient(90deg, rgba(79,182,255,.16), rgba(126,98,255,.12));border-color:#2a486c}
+.tip-box{position:absolute;left:20px;right:20px;bottom:22px;border:1px solid var(--border);border-radius:15px;padding:15px;background:#0b192a}.tip-box strong{font-size:13px}.tip-box p{font-size:12px;color:var(--muted);line-height:1.55;margin-top:7px}
+.main{padding:34px 36px 50px;max-width:1600px;width:100%;margin:0 auto}.hero{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:18px}
+.eyebrow,.panel-tag,.result-label{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--accent)}.hero h2{font-size:34px;margin-top:7px}.hero p{color:var(--muted);margin-top:8px}.hero-badges{display:flex;gap:8px;flex-wrap:wrap}.badge{border-radius:999px;border:1px solid #294767;padding:9px 12px;font-size:12px;color:#cfe1f2;background:#0f1d30}
+.search-section{margin-bottom:18px}.search-section input{padding:14px 15px;border-radius:14px}
+.workspace{display:grid;grid-template-columns:320px minmax(420px,1fr) 380px;gap:20px}.panel{background:linear-gradient(180deg, rgba(17,33,58,.96), rgba(12,22,39,.96));border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 22px 55px rgba(0,0,0,.18)}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:18px}.panel-head h3{font-size:20px;margin-top:6px}.panel-head p{color:var(--muted);margin-top:8px;font-size:13px;line-height:1.5}.count{min-width:34px;text-align:center;background:#15263c;color:var(--muted);border-radius:999px;padding:6px 9px;font-size:11px}
+.tool-list{display:grid;gap:10px;max-height:630px;overflow:auto;padding-right:4px}.tool-item{width:100%;border:1px solid var(--border);border-radius:14px;background:#0a1727;color:white;padding:13px 14px;text-align:left}.tool-item:hover{border-color:#39658f}.tool-item.active{border-color:var(--accent);background:linear-gradient(90deg, rgba(79,182,255,.13), rgba(126,98,255,.10))}.tool-item strong{display:block;font-size:14px}.tool-item small{display:block;color:var(--muted);margin-top:6px;line-height:1.45}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{display:grid;gap:7px}.field label{font-size:13px;color:#d6e1ef;font-weight:600}.actions{display:flex;gap:10px;margin-top:18px}.btn{border:0;border-radius:12px;padding:12px 17px;font-weight:800}.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white}.btn-secondary{background:#182a3f;color:#d4deeb;border:1px solid var(--border)}.full{width:100%}
+.note{margin-bottom:16px;padding:12px 14px;border-radius:12px;border:1px solid rgba(242,194,98,.24);background:rgba(242,194,98,.08);color:#e2cd96;font-size:12px;line-height:1.55}.hidden{display:none!important}
+.result{margin-top:20px;border-radius:16px;border:1px solid #294767;padding:17px;background:linear-gradient(135deg, rgba(79,182,255,.10), rgba(126,98,255,.08))}.result-main{font-size:28px;font-weight:800;margin:8px 0;line-height:1.35}.result-steps{color:var(--muted);font-size:13px;line-height:1.7;white-space:pre-line}
+.visual-toggle{display:flex;gap:8px;margin-bottom:14px}.mini-tab{border:1px solid var(--border);background:#0f1c2d;color:#d3deec;padding:9px 12px;border-radius:10px;font-weight:700}.mini-tab.active{background:linear-gradient(135deg, rgba(79,182,255,.18), rgba(126,98,255,.14));border-color:#3b648e}
+#graphCanvas{width:100%;max-width:100%;height:auto;border-radius:14px;background:#081523;border:1px solid var(--border)}.caption{color:var(--muted);font-size:12px;line-height:1.55;margin-top:12px}.formula-sheet{display:grid;gap:10px;max-height:470px;overflow:auto}.sheet-card{padding:12px 13px;border-radius:12px;border:1px solid var(--border);background:#0b1829}.sheet-card strong{display:block;font-size:14px}.sheet-card span{display:block;color:#d8e5f4;margin-top:7px;font-weight:700}.sheet-card p{color:var(--muted);font-size:12px;line-height:1.55;margin-top:7px}
+.quick-section{margin-top:28px}.section-head h3{font-size:22px;margin-top:6px;margin-bottom:16px}.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.quick-card{padding:18px;border:1px solid var(--border);border-radius:18px;background:#0d1a2b}.icon{font-size:24px}.quick-card h4{margin:10px 0 8px}.quick-card p{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:12px}.quick-card p:last-child{margin-top:12px;margin-bottom:0}.quick-card input,.quick-card select{margin-top:8px}
+.footer{text-align:center;color:var(--muted);font-size:11px;padding-top:26px}
+@media(max-width:1320px){.workspace{grid-template-columns:300px 1fr}.right-panel{grid-column:1 / -1}}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}.tip-box{display:none}.main{padding:24px 16px 40px}.nav{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.hero{flex-direction:column}.hero h2{font-size:28px}.workspace,.quick-grid{grid-template-columns:1fr}.field-grid{grid-template-columns:1fr}}
+@media(max-width:540px){.nav{grid-template-columns:1fr 1fr}}
+
+body.light-theme{
+  --bg:#eef4fb; --panel:#ffffff; --panel-2:#f7fbff; --border:#cbd8e6; --text:#102033;
+  --muted:#63768c; --accent:#1678c8; --accent2:#6547d9; --success:#1d9c6a; --warn:#bd861f; --danger:#ce4459;
+  background:linear-gradient(180deg,#f6f9fd,#eaf1f8);
+}
+body.light-theme .sidebar{background:rgba(247,251,255,.94)}
+body.light-theme .panel, body.light-theme .quick-card, body.light-theme .tool-item, body.light-theme .sheet-card,
+body.light-theme .tip-box, body.light-theme input, body.light-theme select, body.light-theme #graphCanvas,
+body.light-theme .mini-tab, body.light-theme .btn-secondary, body.light-theme .history-item{background:#fff;color:var(--text)}
+body.light-theme .tool-item.active{background:linear-gradient(90deg,rgba(22,120,200,.10),rgba(101,71,217,.08))}
+body.light-theme .result{background:linear-gradient(135deg,rgba(22,120,200,.08),rgba(101,71,217,.07))}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.hero-buttons{display:flex;gap:8px}
+.icon-btn{width:42px;height:42px;border-radius:12px;border:1px solid var(--border);background:#0f1d30;color:var(--text);font-size:18px}.icon-btn:hover{border-color:var(--accent)}
+.history-panel{margin-top:28px;padding:22px;border:1px solid var(--border);border-radius:20px;background:var(--panel)}
+.history-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:15px}.history-head h3{margin-top:5px}
+.history-list{display:grid;gap:10px}.history-item{padding:13px 14px;border:1px solid var(--border);border-radius:13px;background:#0b1829}
+.history-item strong{display:block}.history-item small{display:block;color:var(--muted);margin-top:5px}.history-item span{display:block;margin-top:7px;color:var(--accent);font-weight:700}
+@media(max-width:700px){.history-head{align-items:flex-start;flex-direction:column}.hero-actions{align-items:flex-start}}
+
+.clinical-section{margin-top:28px;padding:22px;border:1px solid var(--border);border-radius:22px;background:var(--panel)}
+.clinical-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}.clinical-head h3{font-size:22px;margin-top:6px}.clinical-head p{color:var(--muted);font-size:13px;margin-top:7px;line-height:1.55}
+.score-box{min-width:110px;text-align:center;border:1px solid var(--border);border-radius:14px;padding:10px 14px;background:var(--panel-2)}.score-box span{display:block;color:var(--muted);font-size:11px}.score-box strong{display:block;margin-top:4px;font-size:18px}
+.clinical-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.6fr);gap:18px}.case-card,.lab-guide-card{border:1px solid var(--border);border-radius:18px;padding:18px;background:var(--panel-2)}
+.case-meta{display:flex;justify-content:space-between;gap:8px;margin-bottom:10px}.case-meta span{font-size:11px;font-weight:800;color:var(--accent);background:rgba(79,182,255,.08);padding:6px 9px;border-radius:999px}
+.case-card h4,.lab-guide-card h4{font-size:19px;margin:8px 0 10px}.case-stem{color:var(--text);line-height:1.65;font-size:14px}.lab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0}.lab-chip{border:1px solid var(--border);border-radius:11px;padding:9px 10px;background:var(--panel)}.lab-chip strong{display:block;font-size:12px}.lab-chip span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.case-options{display:grid;gap:9px;margin-top:12px}.case-option{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--border);padding:11px 12px;border-radius:12px;background:var(--panel);cursor:pointer}.case-option:hover{border-color:var(--accent)}.case-option input{width:auto;margin-top:2px}.case-feedback{margin-top:14px;padding:13px 14px;border-radius:12px;font-size:13px;line-height:1.6}.case-feedback.correct{background:rgba(85,211,159,.09);border:1px solid rgba(85,211,159,.3);color:var(--success)}.case-feedback.incorrect{background:rgba(255,111,129,.08);border:1px solid rgba(255,111,129,.28);color:var(--danger)}.case-actions{display:flex;gap:10px;margin-top:14px}
+.lab-guide-list{display:grid;gap:10px;margin-top:12px}.lab-guide-list div{padding:11px;border:1px solid var(--border);border-radius:12px;background:var(--panel)}.lab-guide-list strong{display:block;font-size:13px}.lab-guide-list span{display:block;color:var(--muted);font-size:12px;line-height:1.5;margin-top:4px}.clinical-warning{color:var(--warn);font-size:11px;line-height:1.55;margin-top:14px}
+body.light-theme .clinical-section,body.light-theme .case-card,body.light-theme .lab-guide-card,body.light-theme .lab-chip,body.light-theme .case-option,body.light-theme .lab-guide-list div,body.light-theme .score-box{background:#fff;color:var(--text)}
+@media(max-width:900px){.clinical-grid{grid-template-columns:1fr}.lab-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.clinical-head{flex-direction:column}.lab-grid{grid-template-columns:1fr}.case-actions{flex-direction:column}}
+
+
+/* Study Platform modules */
+.study-lab-section{margin-top:30px}
+.study-lab-head p{color:var(--muted);font-size:13px;margin-top:7px}
+.study-tabs{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}
+.study-tab{border:1px solid var(--border);background:#0d1a2b;color:var(--muted);padding:10px 14px;border-radius:11px;font-weight:800}
+.study-tab.active{color:white;border-color:var(--accent);background:linear-gradient(135deg,rgba(79,182,255,.18),rgba(126,98,255,.14))}
+.study-pane{margin-top:12px}.study-grid{display:grid;gap:16px}.study-grid.two-col{grid-template-columns:repeat(2,1fr)}.study-grid.three-col{grid-template-columns:repeat(3,1fr)}
+.study-card{padding:18px;border:1px solid var(--border);border-radius:18px;background:var(--panel);box-shadow:0 16px 40px rgba(0,0,0,.12)}
+.study-card h4{margin:8px 0 10px}.study-card>p{color:var(--muted);font-size:12px;line-height:1.55;margin-bottom:12px}.study-card input,.study-card select{margin:6px 0}
+.study-result{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:12px;background:#081523;color:#dce9f8;font-weight:700;line-height:1.5}.light-theme .study-result{background:#fff;color:#13243b}
+.mini-list{display:grid;gap:8px}.mini-list div{padding:9px 10px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:12px}.mini-list strong{color:var(--text)}
+.periodic-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.periodic-head input{max-width:320px}.periodic-grid{display:grid;grid-template-columns:repeat(18,minmax(42px,1fr));gap:5px;margin-top:16px;overflow-x:auto;padding-bottom:6px}.element-cell{min-height:58px;padding:6px 4px;border:1px solid var(--border);border-radius:9px;background:#0a1727;color:white;text-align:center}.element-cell:hover{border-color:var(--accent)}.element-cell small{display:block;color:var(--muted);font-size:9px}.element-cell strong{display:block;font-size:14px;margin:3px 0}.element-placeholder{visibility:hidden}.element-detail{margin-top:14px;padding:14px;border-radius:12px;border:1px solid var(--border);color:var(--muted);line-height:1.6}.element-detail strong{color:var(--text)}
+.inline-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.chart-card{margin-top:16px}.chart-card canvas{width:100%;height:auto;background:#081523;border:1px solid var(--border);border-radius:14px}.exam-layout{display:grid;grid-template-columns:1.35fr .65fr;gap:16px}.exam-top{display:flex;justify-content:space-between;gap:12px}.clinical-warning{margin-top:14px!important}
+@media(max-width:1100px){.study-grid.three-col{grid-template-columns:1fr 1fr}.exam-layout{grid-template-columns:1fr}.periodic-grid{grid-template-columns:repeat(18,48px)}}
+@media(max-width:780px){.study-grid.two-col,.study-grid.three-col{grid-template-columns:1fr}.periodic-head{flex-direction:column}.periodic-head input{max-width:none}}
+
+/* ===== MedScience Hub ===== */
+.mega-section{margin-top:32px;padding:22px;border:1px solid var(--border);border-radius:22px;background:var(--panel)}
+.mega-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.mega-head h3{font-size:24px;margin-top:6px}.mega-head p{color:var(--muted);font-size:13px;line-height:1.55;margin-top:7px}
+.global-search-box{margin:18px 0;position:relative}.global-results{position:absolute;left:0;right:0;top:52px;z-index:20;max-height:360px;overflow:auto;background:var(--panel-2);border:1px solid var(--border);border-radius:14px;padding:8px;box-shadow:0 18px 45px rgba(0,0,0,.25)}.global-result{display:block;width:100%;text-align:left;background:transparent;border:0;color:var(--text);padding:11px 12px;border-radius:10px}.global-result:hover{background:rgba(79,182,255,.09)}.global-result small{display:block;color:var(--muted);margin-top:4px}
+.mega-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}.mega-tab{border:1px solid var(--border);background:var(--panel-2);color:var(--muted);padding:9px 12px;border-radius:10px;font-weight:800;font-size:12px}.mega-tab.active{color:#fff;border-color:var(--accent);background:linear-gradient(135deg,rgba(79,182,255,.18),rgba(126,98,255,.14))}.mega-pane{margin-top:12px}.section-gap{margin-top:16px}
+.body-diagram{max-width:270px;margin:16px auto}.body-diagram svg{width:100%;height:auto}.body-shape{fill:rgba(147,167,192,.22);stroke:rgba(147,167,192,.45);stroke-width:2}.hotspot{fill:var(--accent);stroke:#fff;stroke-width:2;cursor:pointer;transition:.2s}.hotspot:hover{r:15;fill:var(--accent2)}
+.chip-row,.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}.chip-btn,.filter-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:8px 10px;border-radius:999px;font-size:12px;font-weight:700}.chip-btn.active,.filter-btn.active{border-color:var(--accent);background:rgba(79,182,255,.12)}
+.detail-panel{border:1px solid var(--border);border-radius:14px;padding:16px;background:var(--panel);min-height:220px}.detail-panel h4{font-size:20px;margin-bottom:8px}.detail-panel h5{margin:14px 0 6px}.detail-panel ul{padding-left:18px;color:var(--muted);line-height:1.6}.detail-panel p{color:var(--muted);line-height:1.6}
+.knowledge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.knowledge-card{border:1px solid var(--border);border-radius:14px;padding:14px;background:var(--panel-2)}.knowledge-card h5{font-size:15px;margin-bottom:7px}.knowledge-card .tag{display:inline-block;font-size:10px;padding:4px 7px;border-radius:999px;background:rgba(79,182,255,.12);color:var(--accent);margin-bottom:8px}.knowledge-card p{font-size:12px;color:var(--muted);line-height:1.55}.knowledge-card dl{margin-top:8px}.knowledge-card dt{font-size:11px;font-weight:800}.knowledge-card dd{font-size:12px;color:var(--muted);margin:2px 0 7px}
+.punnett{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px}.punnett-cell{padding:14px;text-align:center;border:1px solid var(--border);border-radius:12px;background:var(--panel-2);font-weight:800}.converter-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:10px;margin:12px 0}
+#ecgCanvas,#chemCanvas{width:100%;height:auto;margin-top:12px;background:#081523;border:1px solid var(--border);border-radius:14px}.flashcard{min-height:230px;border:1px solid var(--border);border-radius:18px;padding:28px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,rgba(79,182,255,.08),rgba(126,98,255,.08));margin:14px 0}.flashcard strong{font-size:22px}.flashcard p{font-size:16px;color:var(--muted);line-height:1.6;margin-top:16px}.question-bank{display:grid;gap:10px;max-height:520px;overflow:auto}.question-item{border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--panel-2)}.question-item strong{display:block}.question-item small{color:var(--muted)}.question-item p{color:var(--muted);font-size:12px;line-height:1.5;margin-top:6px}.question-item .mini-actions{display:flex;gap:6px;margin-top:9px}.tiny-btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:6px 8px;border-radius:8px;font-size:11px}
+textarea{width:100%;min-height:100px;background:#081523;color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px;resize:vertical;outline:none}.notes-area{min-height:380px}.mode-switch{display:flex;gap:10px}.progress-card{border:1px solid var(--border);border-radius:16px;padding:16px;background:var(--panel-2)}.progress-card strong{font-size:26px}.progress-bar{height:10px;background:rgba(147,167,192,.14);border-radius:999px;overflow:hidden;margin-top:10px}.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0}.favorite-item{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--panel-2)}
+@media print{.sidebar,.hero-buttons,.search-section,.study-tabs,.mega-tabs,.actions,.case-actions,.history-panel,.tip-box,.btn,.global-search-box{display:none!important}.layout{display:block}.main{padding:0}.panel,.study-card,.mega-section,.clinical-section{box-shadow:none;break-inside:avoid}.hidden{display:none!important}body{background:white;color:black}.study-card,.panel,.mega-section{border-color:#bbb;background:white;color:black}}
+body.light-theme .mega-section,body.light-theme .knowledge-card,body.light-theme .question-item,body.light-theme .favorite-item,body.light-theme .detail-panel,body.light-theme .flashcard{background:#fff;color:var(--text)}
+@media(max-width:1050px){.knowledge-grid{grid-template-columns:1fr 1fr}.converter-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.mega-head{flex-direction:column}.knowledge-grid,.converter-grid{grid-template-columns:1fr}.mode-switch{flex-direction:column}}
+.exam-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.exam-controls select{max-width:220px}
+
+
+/* ===== Responsive collapsible navigation ===== */
+.menu-toggle{
+  position:fixed;
+  top:18px;
+  left:226px;
+  z-index:1400;
+  width:44px;
+  height:44px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:var(--panel);
+  color:var(--text);
+  box-shadow:0 10px 30px rgba(0,0,0,.22);
+  transition:left .28s ease,transform .2s ease,background .2s ease;
+}
+.menu-toggle:hover{transform:translateY(-1px);border-color:var(--accent)}
+.menu-line{display:block;width:20px;height:2px;border-radius:999px;background:currentColor;transition:transform .25s ease,opacity .2s ease}
+body.menu-visible .menu-line:nth-child(1){transform:translateY(7px) rotate(45deg)}
+body.menu-visible .menu-line:nth-child(2){opacity:0}
+body.menu-visible .menu-line:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.sidebar-overlay{display:none}
+.sidebar{transition:transform .28s ease,opacity .24s ease,visibility .24s ease}
+.layout{transition:grid-template-columns .28s ease}
+.brand{padding-right:52px}
+
+@media(min-width:1051px){
+  body.sidebar-collapsed .layout{grid-template-columns:0 minmax(0,1fr)}
+  body.sidebar-collapsed .sidebar{transform:translateX(-105%);opacity:0;visibility:hidden;pointer-events:none;overflow:hidden}
+  body.sidebar-collapsed .menu-toggle{left:18px}
+  body.sidebar-collapsed .main{padding-left:80px}
+}
+
+@media(max-width:1050px){
+  .layout{display:block!important;min-height:100vh}
+  .sidebar{
+    position:fixed!important;
+    inset:0 auto 0 0;
+    width:min(84vw,320px);
+    height:100dvh!important;
+    padding:78px 20px 28px!important;
+    z-index:1200;
+    overflow-y:auto;
+    border-right:1px solid var(--border)!important;
+    border-bottom:0!important;
+    transform:translateX(-105%);
+    opacity:1!important;
+    visibility:visible!important;
+    pointer-events:auto!important;
+    box-shadow:18px 0 45px rgba(0,0,0,.28);
+  }
+  body.sidebar-open .sidebar{transform:translateX(0)}
+  body.sidebar-collapsed .sidebar{transform:translateX(-105%)}
+  .brand{padding-right:0;margin-bottom:24px}
+  .nav{grid-template-columns:1fr!important}
+  .tip-box{position:static!important;display:block!important;margin-top:22px;left:auto!important;right:auto!important;bottom:auto!important}
+  .menu-toggle,body.sidebar-collapsed .menu-toggle{left:16px;top:16px}
+  .main,body.sidebar-collapsed .main{padding:78px 16px 40px!important}
+  .sidebar-overlay{
+    display:block;
+    position:fixed;
+    inset:0;
+    z-index:1100;
+    background:rgba(2,8,18,.58);
+    backdrop-filter:blur(2px);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .25s ease,visibility .25s ease;
+  }
+  body.sidebar-open .sidebar-overlay{opacity:1;visibility:visible;pointer-events:auto}
+  body.sidebar-open{overflow:hidden}
+}
+
+@media(max-width:480px){
+  .sidebar{width:min(88vw,310px)}
+  .main,body.sidebar-collapsed .main{padding-left:12px!important;padding-right:12px!important}
+  .menu-toggle,body.sidebar-collapsed .menu-toggle{left:12px}
+}
+
+@media print{.menu-toggle,.sidebar-overlay{display:none!important}}
+
+
+/* ===== Periodic table complete visual redesign ===== */
+.periodic-showcase{background:linear-gradient(180deg,#f8fbff,#eef5fb)!important;border-color:#cbdbea!important;color:#172033!important}
+.periodic-showcase .panel-tag{color:#2458a6}.periodic-showcase h4,.periodic-showcase p{color:#172033}.periodic-showcase .periodic-head input{background:white;color:#172033;border-color:#c9d8e6}
+.periodic-legend{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 6px}.legend-item{padding:6px 9px;border-radius:999px;font-size:10px;font-weight:800;color:#172033;border:1px solid rgba(23,32,51,.12)}
+.periodic-grid{display:block!important;overflow-x:auto;padding:8px 2px 12px;margin-top:8px}.periodic-main-grid,.periodic-fblock-grid{display:grid;grid-template-columns:repeat(18,minmax(49px,1fr));gap:5px;min-width:940px}.periodic-fblock-grid{margin-top:14px}.periodic-series-label{grid-column:1 / span 2;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#40536b;background:#dfeaf4;border-radius:8px}
+.element-cell{position:relative;min-height:66px!important;padding:6px 4px!important;border:1px solid rgba(23,32,51,.18)!important;border-radius:10px!important;color:#172033!important;text-align:center;box-shadow:0 1px 0 rgba(0,0,0,.03);transition:transform .15s,border-color .15s,box-shadow .15s;background:#e8eef5!important}
+.element-cell:hover,.element-cell:focus{transform:translateY(-2px);border-color:#365d87!important;box-shadow:0 5px 14px rgba(21,45,70,.15);outline:none}.element-cell small{display:block;color:#42566e!important;font-size:8px!important;line-height:1.15}.element-cell strong{display:block;font-size:16px!important;margin:3px 0!important}.element-cell .el-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.element-placeholder{min-height:66px;visibility:hidden}
+.element-cell.alkali,.legend-item.alkali{background:#ffd8d8!important}.element-cell.alkaline,.legend-item.alkaline{background:#ffe6b8!important}.element-cell.transition,.legend-item.transition{background:#cfe2ff!important}.element-cell.postmetal,.legend-item.postmetal{background:#d7ead7!important}.element-cell.metalloid,.legend-item.metalloid{background:#bfe8dc!important}.element-cell.nonmetal,.legend-item.nonmetal{background:#d9f0b8!important}.element-cell.halogen,.legend-item.halogen{background:#fff2a8!important}.element-cell.noble,.legend-item.noble{background:#d9ccff!important}.element-cell.lanthanide,.legend-item.lanthanide{background:#f5c6e7!important}.element-cell.actinide,.legend-item.actinide{background:#ffcdbd!important}.element-cell.unknown{background:#e7e9ee!important}
+.element-detail-rich{background:white!important;border:1px solid #cbdbea!important;color:#26384d!important;padding:18px!important;border-radius:15px!important}.element-detail-rich strong{color:#172033!important}.element-profile{display:grid;grid-template-columns:130px 1fr;gap:18px}.element-identity{border-radius:16px;padding:16px;text-align:center;border:1px solid rgba(0,0,0,.1)}.element-identity .big-z{font-size:12px;color:#41556b}.element-identity .big-symbol{font-size:48px;font-weight:800;line-height:1}.element-identity .big-name{font-weight:800;margin-top:6px}.element-properties{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.element-prop{padding:9px 10px;border-radius:9px;background:#edf4f9}.element-prop span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#63758a}.element-prop strong{display:block;font-size:12px;margin-top:3px;overflow-wrap:anywhere}.element-summary{grid-column:1/-1;margin-top:8px;padding:10px;border-radius:10px;background:#f7fafc;font-size:12px;line-height:1.55}
+@media(max-width:760px){.element-profile{grid-template-columns:1fr}.element-identity{max-width:180px}.element-properties{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ===== Anatomy 3D module ===== */
+.anatomy-3d-layout{grid-template-columns:minmax(360px,1.2fr) minmax(320px,.8fr)!important}.anatomy-3d-card{overflow:hidden}.anatomy-canvas-shell{position:relative;background:radial-gradient(circle at 50% 35%,#20354e 0,#0b1727 62%,#07111f 100%);border:1px solid var(--border);border-radius:18px;overflow:hidden;min-height:520px}.anatomy-canvas-shell canvas{display:block;width:100%;height:auto;max-height:680px;touch-action:pan-y}.anatomy-3d-badge{position:absolute;left:12px;top:12px;font-size:9px;font-weight:800;letter-spacing:.13em;color:#d5e6f6;background:rgba(8,21,35,.72);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 9px}.anatomy-controls{display:grid;grid-template-columns:1fr auto auto;gap:9px;align-items:end;margin-top:12px}.anatomy-controls label{font-size:11px;color:var(--muted)}.anatomy-controls input{margin-top:6px;padding:0}.anatomy-system-buttons{max-height:210px;overflow:auto;padding-bottom:4px}.anatomy-detail-rich{margin-top:14px}.anatomy-detail-rich h4{margin-bottom:8px}.anatomy-detail-rich h5{margin:12px 0 6px}.anatomy-detail-rich ul{padding-left:20px;color:var(--muted);line-height:1.6}.organ-detail-card{margin-top:14px;border:1px solid var(--border);border-radius:13px;padding:13px;background:rgba(79,182,255,.06)}.organ-detail-card strong{display:block;margin-bottom:5px}.organ-detail-card p{color:var(--muted);font-size:12px;line-height:1.55}.anatomy-info-card{min-width:0}
+@media(max-width:980px){.anatomy-3d-layout{grid-template-columns:1fr!important}.anatomy-canvas-shell{min-height:420px}.anatomy-controls{grid-template-columns:1fr 1fr}.anatomy-controls label{grid-column:1/-1}}
+
+
+/* ===== pH calculator and colored reference scale ===== */
+.study-label{display:block;margin:12px 0 6px;font-size:12px;font-weight:800;color:var(--muted)}
+.ph-calculator-card select,.ph-calculator-card input{margin-top:8px}
+.ph-details{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--panel-2);color:var(--muted);font-size:12px;line-height:1.65}
+.ph-formula-list{display:grid;gap:9px;margin-top:12px}.ph-formula-list>div{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:11px 12px;border:1px solid var(--border);border-radius:11px;background:var(--panel-2)}.ph-formula-list strong{font-size:12px}.ph-formula-list span{font-size:12px;color:var(--muted);text-align:right}
+.ph-scale-card{overflow:hidden}.ph-scale-grid{display:grid;grid-template-columns:repeat(15,minmax(54px,1fr));gap:5px;overflow-x:auto;padding:9px 2px 12px;min-width:0}.ph-cell{position:relative;min-width:54px;min-height:104px;border:2px solid transparent;border-radius:13px;padding:9px 5px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.28);transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}.ph-cell:hover,.ph-cell:focus{transform:translateY(-3px);border-color:#fff;outline:none;box-shadow:0 8px 20px rgba(0,0,0,.22)}.ph-cell.selected{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.22),0 10px 24px rgba(0,0,0,.22);transform:translateY(-4px)}.ph-cell .ph-number{font-size:24px;font-weight:900;line-height:1}.ph-cell .ph-kind{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}.ph-cell .ph-example{font-size:8px;line-height:1.2;text-align:center;margin-top:auto;opacity:.96}.ph-cell .ph-arrow{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:14px;display:none}.ph-cell.selected .ph-arrow{display:block}
+.ph-zone-row{display:grid;grid-template-columns:3fr 4fr 1fr 4fr 3fr;gap:5px;margin-top:4px}.ph-zone{padding:7px 8px;text-align:center;border-radius:9px;font-size:9px;font-weight:900;color:#fff}.ph-zone.acid-strong{background:#d7191c}.ph-zone.acid{background:#f59e0b}.ph-zone.neutral{background:#22c55e}.ph-zone.base{background:#258bd2}.ph-zone.base-strong{background:#6d4dd4}.ph-selected-badge{min-width:95px;text-align:center;padding:10px 13px;border-radius:999px;font-weight:900;border:1px solid var(--border);background:var(--panel-2)}.ph-scale-explanation{margin-top:13px;border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:var(--panel-2);font-size:12px;line-height:1.6;color:var(--muted)}
+.medication-extra-grid input{margin-top:8px}.medication-extra-grid .study-result{line-height:1.6}
+@media(max-width:1000px){.ph-scale-grid{grid-template-columns:repeat(15,62px)}.ph-zone-row{display:flex;flex-wrap:wrap}.ph-zone{flex:1 1 130px}}
+@media(max-width:600px){.ph-formula-list>div{align-items:flex-start;flex-direction:column;gap:4px}.ph-formula-list span{text-align:left}.ph-scale-grid{grid-template-columns:repeat(15,58px)}.ph-cell{min-height:96px}}
+body.light-theme .ph-details,body.light-theme .ph-formula-list>div,body.light-theme .ph-scale-explanation,body.light-theme .ph-selected-badge{background:#f6f9fd;color:var(--text)}
+
+.site-links{display:grid;gap:8px;margin:0 0 14px}.site-links a{display:block;padding:10px 12px;border-radius:10px;border:1px solid var(--border);color:var(--muted);text-decoration:none;font-size:13px;font-weight:700;background:rgba(255,255,255,.02)}.site-links a:hover{color:var(--text);border-color:var(--accent)}.app-footer-links{margin-top:8px}.app-footer-links a{color:var(--accent);text-decoration:none}.app-footer-links a:hover{text-decoration:underline}
+
+</style>
+</head>
+<body>
+  <button id="menuToggle" class="menu-toggle" type="button" aria-label="Ocultar menú" aria-controls="appSidebar" aria-expanded="true">
+    <span class="menu-line"></span>
+    <span class="menu-line"></span>
+    <span class="menu-line"></span>
+  </button>
+  <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <div class="layout">
+    <aside id="appSidebar" class="sidebar">
+      <div class="brand">
+        <div class="logo">∑</div>
+        <div>
+          <h1>NexoCiencia Lab</h1>
+          <p>Calculadora educativa integral</p>
+        </div>
+      </div>
+
+      <div class="site-links">
+        <a href="https://nexociencia.blogspot.com/">🏠 Inicio</a>
+        <a href="https://nexociencia.blogspot.com/search/label/Guias">📚 Guías</a>
+        <a href="https://nexociencia.blogspot.com/p/aviso-medico.html">⚕️ Aviso médico</a>
+      </div>
+
+      <nav id="categoryNav" class="nav"></nav>
+
+      <div class="tip-box">
+        <strong>Consejo</strong>
+        <p>Busca una fórmula, completa los campos y el sistema te mostrará el resultado, el procedimiento y, en Física, un gráfico explicativo.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="hero">
+        <div>
+          <span class="eyebrow">PLATAFORMA EDUCATIVA</span>
+          <h2 id="pageTitle">Matemáticas</h2>
+          <p id="pageDescription">Desde cálculos básicos hasta herramientas universitarias.</p>
+        </div>
+        <div class="hero-actions">
+          <div class="hero-badges">
+            <span class="badge">Básico</span>
+            <span class="badge">Intermedio</span>
+            <span class="badge">Avanzado</span>
+          </div>
+          <div class="hero-buttons">
+            <button id="themeToggle" class="icon-btn" title="Cambiar tema">☀️</button>
+            <button id="historyToggle" class="icon-btn" title="Ver historial">🕘</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="search-section">
+        <input id="searchInput" type="search" placeholder="Buscar fórmulas, por ejemplo: pH, Pitágoras, IMC, fuerza, molaridad..." />
+      </section>
+
+      <section class="workspace">
+        <div class="panel left-panel">
+          <div class="panel-head">
+            <div>
+              <span class="panel-tag">PASO 1</span>
+              <h3>Selecciona una herramienta</h3>
+            </div>
+            <span id="toolCount" class="count"></span>
+          </div>
+          <div id="toolList" class="tool-list"></div>
+        </div>
+
+        <div class="panel center-panel">
+          <div class="panel-head">
+            <div>
+              <span class="panel-tag">PASO 2</span>
+              <h3 id="toolTitle">Área de un círculo</h3>
+              <p id="toolFormula">A = πr²</p>
+            </div>
+          </div>
+
+          <div id="toolNote" class="note hidden"></div>
+
+          <form id="calcForm">
+            <div id="fieldContainer" class="field-grid"></div>
+            <div class="actions">
+              <button type="submit" class="btn btn-primary">Calcular</button>
+              <button type="button" id="clearBtn" class="btn btn-secondary">Limpiar</button>
+            </div>
+          </form>
+
+          <div id="resultBox" class="result hidden">
+            <span class="result-label">RESULTADO</span>
+            <div id="resultMain" class="result-main">0</div>
+            <div id="resultSteps" class="result-steps"></div>
+          </div>
+        </div>
+
+        <div class="panel right-panel">
+          <div class="panel-head">
+            <div>
+              <span class="panel-tag">VISUALIZACIÓN</span>
+              <h3>Gráficos y apoyo visual</h3>
+              <p id="visualTitle">Disponible según la herramienta</p>
+            </div>
+          </div>
+
+          <div class="visual-toggle">
+            <button class="mini-tab active" data-visual="graph">Gráfico</button>
+            <button class="mini-tab" data-visual="sheet">Formulario</button>
+          </div>
+
+          <div id="visualGraph" class="visual-block">
+            <canvas id="graphCanvas" width="600" height="360"></canvas>
+            <div id="graphCaption" class="caption">Selecciona una herramienta y calcula para ver una gráfica cuando esté disponible.</div>
+          </div>
+
+          <div id="visualSheet" class="visual-block hidden">
+            <div id="formulaSheet" class="formula-sheet"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="quick-section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">EXTRAS</span>
+            <h3>Utilidades rápidas</h3>
+          </div>
+        </div>
+
+        <div class="quick-grid">
+          <div class="quick-card">
+            <span class="icon">🧮</span>
+            <h4>Calculadora científica</h4>
+            <p>Admite operadores básicos, potencias con ** y funciones de Math como sqrt, sin, cos, tan.</p>
+            <input id="basicExpression" type="text" placeholder="Ej: (25 + 5) * 2 / 3" />
+            <button id="basicBtn" class="btn btn-primary full">Resolver</button>
+            <p id="basicOutput">Resultado: —</p>
+          </div>
+
+          <div class="quick-card">
+            <span class="icon">🌡️</span>
+            <h4>Convertidor de temperatura</h4>
+            <input id="tempValue" type="number" step="any" placeholder="Valor" />
+            <select id="tempFrom">
+              <option value="C">Celsius</option>
+              <option value="F">Fahrenheit</option>
+              <option value="K">Kelvin</option>
+            </select>
+            <select id="tempTo">
+              <option value="F">Fahrenheit</option>
+              <option value="C">Celsius</option>
+              <option value="K">Kelvin</option>
+            </select>
+            <button id="tempBtn" class="btn btn-primary full">Convertir</button>
+            <p id="tempOutput">Resultado: —</p>
+          </div>
+
+          <div class="quick-card">
+            <span class="icon">📏</span>
+            <h4>Convertidor de longitud</h4>
+            <input id="lenValue" type="number" step="any" placeholder="Valor" />
+            <select id="lenFrom">
+              <option value="m">Metros</option>
+              <option value="km">Kilómetros</option>
+              <option value="cm">Centímetros</option>
+              <option value="mm">Milímetros</option>
+              <option value="in">Pulgadas</option>
+              <option value="ft">Pies</option>
+            </select>
+            <select id="lenTo">
+              <option value="km">Kilómetros</option>
+              <option value="m">Metros</option>
+              <option value="cm">Centímetros</option>
+              <option value="mm">Milímetros</option>
+              <option value="in">Pulgadas</option>
+              <option value="ft">Pies</option>
+            </select>
+            <button id="lenBtn" class="btn btn-primary full">Convertir</button>
+            <p id="lenOutput">Resultado: —</p>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="study-lab-section">
+        <div class="section-head study-lab-head">
+          <div>
+            <span class="eyebrow">LABORATORIO DE ESTUDIO</span>
+            <h3>Herramientas avanzadas para ciencias y medicina</h3>
+            <p>Masa molar, tabla periódica, pH visual, medicamentos, gráficas y banco de preguntas en un solo lugar.</p>
+          </div>
+        </div>
+
+        <div class="study-tabs">
+          <button class="study-tab active" data-study="molar">Masa molar</button>
+          <button class="study-tab" data-study="periodic">Tabla periódica</button>
+          <button class="study-tab" data-study="phscale">pH y escala</button>
+          <button class="study-tab" data-study="pharma">Medicamentos</button>
+          <button class="study-tab" data-study="plotter">Gráficas</button>
+          <button class="study-tab" data-study="exam">Modo examen</button>
+        </div>
+
+        <div id="study-molar" class="study-pane">
+          <div class="study-grid two-col">
+            <article class="study-card">
+              <span class="panel-tag">QUÍMICA</span>
+              <h4>Calculadora de masa molar</h4>
+              <p>Escribe una fórmula como H2SO4, NaCl, Ca(OH)2 o C6H12O6.</p>
+              <input id="molarFormula" type="text" placeholder="Ej: H2SO4" />
+              <button id="molarCalcBtn" class="btn btn-primary full">Calcular masa molar</button>
+              <div id="molarResult" class="study-result">Resultado: —</div>
+            </article>
+            <article class="study-card">
+              <span class="panel-tag">GUÍA</span>
+              <h4>Cómo se calcula</h4>
+              <p>La masa molar se obtiene sumando la masa atómica de cada elemento multiplicada por el número de átomos presentes.</p>
+              <div id="molarBreakdown" class="mini-list"></div>
+            </article>
+          </div>
+        </div>
+
+        <div id="study-periodic" class="study-pane hidden">
+          <article class="study-card periodic-showcase">
+            <div class="periodic-head">
+              <div><span class="panel-tag">QUÍMICA</span><h4>Tabla periódica completa — 118 elementos</h4><p>Selecciona cualquier elemento para ver su ficha química y atómica.</p></div>
+              <input id="elementSearch" type="search" placeholder="Buscar H, Fe, sodio, 26..." />
+            </div>
+            <div class="periodic-legend" id="periodicLegend">
+              <span class="legend-item alkali">Alcalinos</span><span class="legend-item alkaline">Alcalinotérreos</span><span class="legend-item transition">Transición</span><span class="legend-item postmetal">Postransición</span><span class="legend-item metalloid">Metaloides</span><span class="legend-item nonmetal">No metales</span><span class="legend-item halogen">Halógenos</span><span class="legend-item noble">Gases nobles</span><span class="legend-item lanthanide">Lantánidos</span><span class="legend-item actinide">Actínidos</span>
+            </div>
+            <div id="periodicGrid" class="periodic-grid"></div>
+            <div id="elementDetail" class="element-detail element-detail-rich">Selecciona un elemento para ver todos sus datos principales.</div>
+          </article>
+        </div>
+
+        <div id="study-phscale" class="study-pane hidden">
+          <div class="study-grid two-col">
+            <article class="study-card ph-calculator-card">
+              <span class="panel-tag">ÁCIDO · BASE</span>
+              <h4>Calculadora completa de pH</h4>
+              <p>Calcula pH, pOH, [H⁺] o [OH⁻]. La relación pH + pOH = 14 se usa como aproximación a 25 °C.</p>
+              <label class="study-label" for="phCalcMode">¿Qué dato tienes?</label>
+              <select id="phCalcMode">
+                <option value="h_to_ph">Concentración [H⁺] → pH</option>
+                <option value="oh_to_ph">Concentración [OH⁻] → pOH y pH</option>
+                <option value="ph_to_h">pH → [H⁺] y pOH</option>
+                <option value="poh_to_oh">pOH → [OH⁻] y pH</option>
+              </select>
+              <input id="phCalcValue" type="number" step="any" min="0" placeholder="Introduce el valor" />
+              <button id="phCalcBtn" class="btn btn-primary full" type="button">Calcular pH</button>
+              <div id="phCalcResult" class="study-result">Resultado: —</div>
+              <div id="phCalcDetails" class="ph-details">Selecciona un tipo de cálculo e introduce un valor.</div>
+            </article>
+
+            <article class="study-card ph-reference-card">
+              <span class="panel-tag">FÓRMULAS</span>
+              <h4>Relaciones fundamentales</h4>
+              <div class="ph-formula-list">
+                <div><strong>pH</strong><span>pH = −log₁₀[H⁺]</span></div>
+                <div><strong>pOH</strong><span>pOH = −log₁₀[OH⁻]</span></div>
+                <div><strong>Relación</strong><span>pH + pOH ≈ 14 a 25 °C</span></div>
+                <div><strong>Concentración H⁺</strong><span>[H⁺] = 10<sup>−pH</sup></span></div>
+                <div><strong>Concentración OH⁻</strong><span>[OH⁻] = 10<sup>−pOH</sup></span></div>
+              </div>
+              <p class="caption">La escala 0–14 es la representación educativa habitual para soluciones acuosas. En química real pueden existir valores fuera de ese intervalo.</p>
+            </article>
+          </div>
+
+          <article class="study-card ph-scale-card section-gap">
+            <div class="periodic-head">
+              <div>
+                <span class="panel-tag">ESCALA VISUAL</span>
+                <h4>Tabla de pH con colores</h4>
+                <p>Rojo/naranja = más ácido · Verde = neutro · Azul/violeta = más básico.</p>
+              </div>
+              <div id="phSelectedBadge" class="ph-selected-badge">pH —</div>
+            </div>
+            <div id="phScaleGrid" class="ph-scale-grid" aria-label="Escala de pH de 0 a 14"></div>
+            <div class="ph-zone-row">
+              <span class="ph-zone acid-strong">Ácido fuerte · 0–2</span>
+              <span class="ph-zone acid">Ácido · 3–6</span>
+              <span class="ph-zone neutral">Neutro · 7</span>
+              <span class="ph-zone base">Básico · 8–11</span>
+              <span class="ph-zone base-strong">Básico fuerte · 12–14</span>
+            </div>
+            <div id="phScaleExplanation" class="ph-scale-explanation">Calcula un valor arriba o pulsa un número de la escala para ver su clasificación.</div>
+          </article>
+        </div>
+
+        <div id="study-pharma" class="study-pane hidden">
+          <div class="study-grid three-col">
+            <article class="study-card">
+              <span class="panel-tag">DOSIS POR PESO</span>
+              <h4>Dosis pediátrica / por peso (mg/kg)</h4>
+              <input id="doseWeight" type="number" step="any" placeholder="Peso (kg)" />
+              <input id="dosePerKg" type="number" step="any" placeholder="Dosis indicada (mg/kg)" />
+              <button id="doseWeightBtn" class="btn btn-primary full">Calcular</button>
+              <div id="doseWeightResult" class="study-result">Resultado: —</div>
+            </article>
+            <article class="study-card">
+              <span class="panel-tag">VOLUMEN A ADMINISTRAR</span>
+              <h4>De mg a mL</h4>
+              <input id="doseOrdered" type="number" step="any" placeholder="Dosis indicada (mg)" />
+              <input id="stockMg" type="number" step="any" placeholder="Presentación: mg disponibles" />
+              <input id="stockMl" type="number" step="any" placeholder="Presentación: mL disponibles" />
+              <button id="doseVolumeBtn" class="btn btn-primary full">Calcular</button>
+              <div id="doseVolumeResult" class="study-result">Resultado: —</div>
+            </article>
+            <article class="study-card">
+              <span class="panel-tag">INFUSIÓN</span>
+              <h4>mcg/kg/min → mL/h</h4>
+              <input id="infWeight" type="number" step="any" placeholder="Peso (kg)" />
+              <input id="infDose" type="number" step="any" placeholder="Dosis indicada (mcg/kg/min)" />
+              <input id="infDrugMg" type="number" step="any" placeholder="Fármaco en bolsa (mg)" />
+              <input id="infVolume" type="number" step="any" placeholder="Volumen de bolsa (mL)" />
+              <button id="infusionCalcBtn" class="btn btn-primary full">Calcular</button>
+              <div id="infusionResult" class="study-result">Resultado: —</div>
+            </article>
+          </div>
+          <div class="study-grid three-col section-gap medication-extra-grid">
+            <article class="study-card">
+              <span class="panel-tag">PEDIATRÍA · DOSIS/DÍA</span>
+              <h4>mg/kg/día dividido en tomas</h4>
+              <input id="medDailyWeight" type="number" step="any" min="0" placeholder="Peso (kg)" />
+              <input id="medDailyMgKg" type="number" step="any" min="0" placeholder="Dosis indicada (mg/kg/día)" />
+              <input id="medDailyDoses" type="number" step="1" min="1" placeholder="Número de dosis al día" />
+              <button id="medDailyBtn" class="btn btn-primary full" type="button">Calcular dosis por toma</button>
+              <div id="medDailyResult" class="study-result">Resultado: —</div>
+            </article>
+
+            <article class="study-card">
+              <span class="panel-tag">TABLETAS / CÁPSULAS</span>
+              <h4>Unidades a administrar</h4>
+              <input id="medOrderedUnit" type="number" step="any" min="0" placeholder="Dosis indicada (mg)" />
+              <input id="medStrengthUnit" type="number" step="any" min="0" placeholder="Fuerza por tableta/cápsula (mg)" />
+              <button id="medUnitsBtn" class="btn btn-primary full" type="button">Calcular unidades</button>
+              <div id="medUnitsResult" class="study-result">Resultado: —</div>
+            </article>
+
+            <article class="study-card">
+              <span class="panel-tag">RECONSTITUCIÓN</span>
+              <h4>Concentración y volumen final</h4>
+              <input id="medVialMg" type="number" step="any" min="0" placeholder="Fármaco total (mg)" />
+              <input id="medFinalMl" type="number" step="any" min="0" placeholder="Volumen final (mL)" />
+              <input id="medTargetMg" type="number" step="any" min="0" placeholder="Dosis indicada (mg)" />
+              <button id="medReconstBtn" class="btn btn-primary full" type="button">Calcular</button>
+              <div id="medReconstResult" class="study-result">Resultado: —</div>
+            </article>
+          </div>
+          <p class="clinical-warning"><strong>Uso educativo:</strong> estas herramientas solo realizan aritmética con una dosis que ya fue indicada. No seleccionan medicamentos, no establecen dosis terapéuticas y no sustituyen la receta, el protocolo institucional ni la verificación profesional de concentración, vía y unidades.</p>
+        </div>
+
+        <div id="study-plotter" class="study-pane hidden">
+          <div class="study-grid two-col">
+            <article class="study-card">
+              <span class="panel-tag">MATEMÁTICAS</span>
+              <h4>Graficador de funciones</h4>
+              <input id="mathFunction" type="text" value="x^2" placeholder="Ej: x^2, sin(x), 2*x+1" />
+              <div class="inline-fields"><input id="plotMin" type="number" value="-10" /><input id="plotMax" type="number" value="10" /></div>
+              <button id="plotMathBtn" class="btn btn-primary full">Graficar función</button>
+            </article>
+            <article class="study-card">
+              <span class="panel-tag">QUÍMICA</span>
+              <h4>Curva de titulación aproximada</h4>
+              <p>Modelo educativo de ácido fuerte con base fuerte.</p>
+              <input id="acidM" type="number" step="any" value="0.1" placeholder="M ácido" />
+              <input id="acidV" type="number" step="any" value="25" placeholder="mL ácido" />
+              <input id="baseM" type="number" step="any" value="0.1" placeholder="M base" />
+              <button id="plotTitrationBtn" class="btn btn-primary full">Graficar titulación</button>
+            </article>
+          </div>
+          <article class="study-card chart-card"><canvas id="studyCanvas" width="1000" height="440"></canvas><div id="studyChartCaption" class="caption">Selecciona un tipo de gráfico.</div></article>
+        </div>
+
+        <div id="study-exam" class="study-pane hidden">
+          <div class="exam-controls"><select id="examSubjectFilter"><option value="all">Todas las materias</option><option>Matemáticas</option><option>Física</option><option>Química</option><option>Medicina</option></select><select id="examDifficultyFilter"><option value="all">Toda dificultad</option><option>Básico</option><option>Intermedio</option><option>Avanzado</option></select><button id="examShuffleBtn" class="btn btn-secondary" type="button">🔀 Aleatoria</button><span id="examTimer" class="badge">05:00</span></div>
+          <div class="exam-layout">
+            <article class="study-card">
+              <div class="exam-top"><div><span class="panel-tag">MODO EXAMEN</span><h4 id="examQuestionTitle">Pregunta</h4></div><div class="score-box"><span>Puntos</span><strong id="examScore">0 / 0</strong></div></div>
+              <p id="examQuestion" class="case-stem"></p>
+              <div id="examOptions" class="case-options"></div>
+              <div id="examFeedback" class="case-feedback hidden"></div>
+              <div class="case-actions"><button id="examCheckBtn" class="btn btn-primary" type="button">Comprobar</button><button id="examNextBtn" class="btn btn-secondary" type="button">Siguiente</button></div>
+            </article>
+            <article class="study-card">
+              <span class="panel-tag">BANCO DE PREGUNTAS</span>
+              <h4>Materias incluidas</h4>
+              <div class="lab-guide-list">
+                <div><strong>Matemáticas</strong><span>Álgebra, geometría y cálculo.</span></div>
+                <div><strong>Física</strong><span>Mecánica, energía y electricidad.</span></div>
+                <div><strong>Química</strong><span>Moles, pH, gases y estequiometría.</span></div>
+                <div><strong>Medicina</strong><span>Laboratorio y conceptos clínicos básicos.</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="clinical-section">
+        <div class="section-head clinical-head">
+          <div>
+            <span class="eyebrow">CLÍNICA Y LABORATORIO</span>
+            <h3>Casos clínicos interactivos</h3>
+            <p>Practica interpretación de hemograma, química sanguínea, gasometría y situaciones clínicas básicas.</p>
+          </div>
+          <div class="score-box"><span>Puntuación</span><strong id="caseScore">0 / 0</strong></div>
+        </div>
+        <div class="clinical-grid">
+          <article class="case-card">
+            <div class="case-meta"><span id="caseLevel">Básico</span><span id="caseNumber">Caso 1</span></div>
+            <h4 id="caseTitle">Cargando caso...</h4>
+            <p id="caseStem" class="case-stem"></p>
+            <div id="caseLabs" class="lab-grid"></div>
+            <div id="caseOptions" class="case-options"></div>
+            <div id="caseFeedback" class="case-feedback hidden"></div>
+            <div class="case-actions">
+              <button id="checkCaseBtn" class="btn btn-primary" type="button">Comprobar respuesta</button>
+              <button id="nextCaseBtn" class="btn btn-secondary" type="button">Siguiente caso</button>
+            </div>
+          </article>
+          <article class="lab-guide-card">
+            <span class="panel-tag">REFERENCIA EDUCATIVA</span>
+            <h4>Panel de sangre y laboratorio</h4>
+            <div class="lab-guide-list">
+              <div><strong>Hemograma</strong><span>Hb, Hto, VCM, HCM, CHCM, leucocitos y plaquetas.</span></div>
+              <div><strong>Diferencial</strong><span>Neutrófilos, linfocitos, monocitos, eosinófilos y basófilos.</span></div>
+              <div><strong>Química</strong><span>Glucosa, creatinina, urea, Na⁺, K⁺, Ca²⁺ y otros.</span></div>
+              <div><strong>Gasometría</strong><span>pH, PaCO₂ y HCO₃⁻ para práctica ácido-base.</span></div>
+              <div><strong>ABO/Rh</strong><span>Compatibilidad básica de glóbulos rojos para estudio.</span></div>
+            </div>
+            <p class="clinical-warning">Uso educativo. No emplear esta página para diagnosticar, indicar tratamientos ni decidir transfusiones reales.</p>
+          </article>
+        </div>
+      </section>
+
+
+      <section class="mega-section" id="medScienceHub">
+        <div class="section-head mega-head">
+          <div>
+            <span class="eyebrow">MEDSCIENCE HUB</span>
+            <h3>Medicina y ciencias integradas</h3>
+            <p>Anatomía, fisiología, microbiología, genética, bioquímica, laboratorio, ECG, casos clínicos y herramientas de estudio.</p>
+          </div>
+          <button id="printPdfBtn" class="btn btn-secondary" type="button">🖨️ Exportar / Guardar PDF</button>
+        </div>
+
+        <div class="global-search-box">
+          <input id="globalSearch" type="search" placeholder="Buscador general: molaridad, hemoglobina, segunda ley de Newton, ECG, genética..." />
+          <div id="globalSearchResults" class="global-results hidden"></div>
+        </div>
+
+        <div class="mega-tabs">
+          <button class="mega-tab active" data-mega="anatomy">Anatomía</button>
+          <button class="mega-tab" data-mega="physiology">Fisiología</button>
+          <button class="mega-tab" data-mega="micro">Microbiología</button>
+          <button class="mega-tab" data-mega="genetics">Genética</button>
+          <button class="mega-tab" data-mega="biochem">Bioquímica</button>
+          <button class="mega-tab" data-mega="labs">Laboratorio</button>
+          <button class="mega-tab" data-mega="ecg">ECG</button>
+          <button class="mega-tab" data-mega="specialcases">Casos</button>
+          <button class="mega-tab" data-mega="chemtools">Química+</button>
+          <button class="mega-tab" data-mega="converter">Conversor+</button>
+          <button class="mega-tab" data-mega="flashcards">Flashcards</button>
+          <button class="mega-tab" data-mega="questions">Banco preguntas</button>
+          <button class="mega-tab" data-mega="teacher">Profesor/Estudiante</button>
+          <button class="mega-tab" data-mega="notes">Notas</button>
+          <button class="mega-tab" data-mega="progress">Progreso</button>
+          <button class="mega-tab" data-mega="favorites">Favoritos</button>
+        </div>
+
+        <div id="mega-anatomy" class="mega-pane">
+          <div class="study-grid anatomy-3d-layout">
+            <article class="study-card anatomy-3d-card">
+              <div class="periodic-head">
+                <div><span class="panel-tag">ANATOMÍA 3D</span><h4>Cuerpo humano interactivo</h4><p>Arrastra horizontalmente para rotar. Selecciona un sistema y toca un órgano para conocerlo.</p></div>
+                <button id="anatomyReset3d" class="btn btn-secondary" type="button">Reiniciar vista</button>
+              </div>
+              <div class="anatomy-canvas-shell">
+                <canvas id="anatomy3dCanvas" width="700" height="720" aria-label="Modelo anatómico tridimensional educativo"></canvas>
+                <div class="anatomy-3d-badge">MODELO 3D EDUCATIVO</div>
+              </div>
+              <div class="anatomy-controls">
+                <label>Rotación <input id="anatomyAngle" type="range" min="-180" max="180" value="0" step="1"></label>
+                <button id="anatomyLeft" class="btn btn-secondary" type="button">↶ Girar</button>
+                <button id="anatomyRight" class="btn btn-secondary" type="button">Girar ↷</button>
+              </div>
+              <p class="caption">Modelo esquemático 3D para aprendizaje. Las formas y posiciones son aproximadas y no sustituyen un atlas anatómico profesional.</p>
+            </article>
+            <article class="study-card anatomy-info-card">
+              <span class="panel-tag">SISTEMAS DEL CUERPO</span>
+              <h4>Explora anatomía por sistemas</h4>
+              <div id="anatomySystemButtons" class="chip-row anatomy-system-buttons"></div>
+              <div id="anatomyDetail" class="detail-panel anatomy-detail-rich"></div>
+              <div id="anatomyOrganDetail" class="organ-detail-card"><strong>Órgano seleccionado</strong><p>Toca un órgano coloreado en el modelo 3D.</p></div>
+            </article>
+          </div>
+        </div>
+
+        <div id="mega-physiology" class="mega-pane hidden">
+          <div class="study-grid three-col">
+            <article class="study-card"><span class="panel-tag">CARDIOVASCULAR</span><h4>Gasto cardíaco</h4><p>GC = FC × volumen sistólico.</p><input id="hrVal" type="number" placeholder="Frecuencia cardíaca (lpm)"><input id="svVal" type="number" placeholder="Volumen sistólico (mL)"><button id="coBtn" class="btn btn-primary full">Calcular</button><div id="coResult" class="study-result">Resultado: —</div></article>
+            <article class="study-card"><span class="panel-tag">RESPIRATORIO</span><h4>Ventilación minuto</h4><p>VE = frecuencia respiratoria × volumen corriente.</p><input id="rrVal" type="number" placeholder="Respiraciones/min"><input id="tvVal" type="number" placeholder="Volumen corriente (mL)"><button id="veBtn" class="btn btn-primary full">Calcular</button><div id="veResult" class="study-result">Resultado: —</div></article>
+            <article class="study-card"><span class="panel-tag">RENAL</span><h4>Depuración por fórmula C = U·V/P</h4><input id="uVal" type="number" placeholder="Concentración urinaria U"><input id="flowVal" type="number" placeholder="Flujo urinario V (mL/min)"><input id="pVal" type="number" placeholder="Concentración plasmática P"><button id="clearanceBtn" class="btn btn-primary full">Calcular</button><div id="clearanceResult" class="study-result">Resultado: —</div></article>
+          </div>
+          <div class="study-grid two-col section-gap">
+            <article class="study-card"><span class="panel-tag">ÁCIDO-BASE</span><h4>Henderson-Hasselbalch</h4><p>pH = 6.1 + log(HCO₃⁻ / (0.03 × PaCO₂)).</p><input id="hhHco3" type="number" value="24" step="any" placeholder="HCO3-"><input id="hhPco2" type="number" value="40" step="any" placeholder="PaCO2"><button id="hhBtn" class="btn btn-primary full">Calcular pH</button><div id="hhResult" class="study-result">Resultado: —</div></article>
+            <article class="study-card"><span class="panel-tag">EJEMPLOS</span><h4>Ideas fisiológicas clave</h4><div class="mini-list"><div><strong>GC</strong>: determina flujo de sangre por minuto.</div><div><strong>VE</strong>: volumen total movilizado por minuto.</div><div><strong>Depuración</strong>: volumen plasmático teórico depurado por unidad de tiempo.</div><div><strong>Equilibrio ácido-base</strong>: depende de componentes respiratorios y metabólicos.</div></div></article>
+          </div>
+        </div>
+
+        <div id="mega-micro" class="mega-pane hidden">
+          <article class="study-card">
+            <div class="periodic-head"><div><span class="panel-tag">MICROBIOLOGÍA</span><h4>Atlas resumido de microorganismos</h4></div><input id="microSearch" type="search" placeholder="Buscar bacteria, virus, hongo o parásito..."></div>
+            <div class="filter-row"><button class="filter-btn active" data-micro="todos">Todos</button><button class="filter-btn" data-micro="Bacteria">Bacterias</button><button class="filter-btn" data-micro="Virus">Virus</button><button class="filter-btn" data-micro="Hongo">Hongos</button><button class="filter-btn" data-micro="Parásito">Parásitos</button></div>
+            <div id="microGrid" class="knowledge-grid"></div>
+          </article>
+        </div>
+
+        <div id="mega-genetics" class="mega-pane hidden">
+          <div class="study-grid two-col">
+            <article class="study-card"><span class="panel-tag">MENDEL</span><h4>Cuadro de Punnett monohíbrido</h4><div class="inline-fields"><select id="parent1"><option>AA</option><option selected>Aa</option><option>aa</option></select><select id="parent2"><option>AA</option><option selected>Aa</option><option>aa</option></select></div><button id="punnettBtn" class="btn btn-primary full">Generar cruce</button><div id="punnettResult" class="punnett"></div></article>
+            <article class="study-card"><span class="panel-tag">ABO/Rh</span><h4>Genética de grupos sanguíneos</h4><p>Resumen educativo de los alelos Iᴬ, Iᴮ e i y del factor Rh.</p><div class="mini-list"><div><strong>A</strong>: IᴬIᴬ o Iᴬi.</div><div><strong>B</strong>: IᴮIᴮ o Iᴮi.</div><div><strong>AB</strong>: IᴬIᴮ (codominancia).</div><div><strong>O</strong>: ii.</div><div><strong>Rh</strong>: un modelo mendeliano simplificado suele representar D como dominante.</div></div></article>
+          </div>
+        </div>
+
+        <div id="mega-biochem" class="mega-pane hidden">
+          <article class="study-card"><span class="panel-tag">BIOQUÍMICA</span><h4>Rutas metabólicas resumidas</h4><div id="pathwayTabs" class="chip-row"></div><div id="pathwayDetail" class="detail-panel"></div></article>
+        </div>
+
+        <div id="mega-labs" class="mega-pane hidden">
+          <article class="study-card">
+            <div class="periodic-head"><div><span class="panel-tag">LABORATORIO CLÍNICO</span><h4>Perfiles y valores de referencia educativos</h4></div><input id="labSearch" type="search" placeholder="Buscar creatinina, ALT, LDL, INR..."></div>
+            <p class="clinical-warning">Los intervalos cambian entre laboratorios, edad, sexo, método y contexto clínico. Úsalos solo como referencia educativa.</p>
+            <div id="labPanels" class="knowledge-grid"></div>
+          </article>
+        </div>
+
+        <div id="mega-ecg" class="mega-pane hidden">
+          <div class="study-grid two-col">
+            <article class="study-card"><span class="panel-tag">ECG EDUCATIVO</span><h4>Cálculos básicos</h4><input id="rrBoxes" type="number" step="any" placeholder="Cuadros grandes entre R-R"><button id="ecgHrBtn" class="btn btn-primary full">Calcular FC (regla 300)</button><div id="ecgHrResult" class="study-result">Resultado: —</div><div class="inline-fields"><input id="qtMs" type="number" placeholder="QT (ms)"><input id="rrSec" type="number" step="any" placeholder="RR (s)"></div><button id="qtcBtn" class="btn btn-primary full">QTc Bazett</button><div id="qtcResult" class="study-result">Resultado: —</div><h4 style="margin-top:16px">Intervalos por cuadros pequeños</h4><div class="inline-fields"><input id="prBoxes" type="number" step="any" placeholder="Cuadros PR"><input id="qrsBoxes" type="number" step="any" placeholder="Cuadros QRS"></div><button id="ecgIntervalsBtn" class="btn btn-primary full">Calcular PR y QRS</button><div id="ecgIntervalsResult" class="study-result">Resultado: —</div></article>
+            <article class="study-card"><span class="panel-tag">TRAZADO</span><h4>Ejemplos esquemáticos</h4><select id="ecgPattern"><option value="sinus">Ritmo sinusal esquemático</option><option value="tachy">Taquicardia esquemática</option><option value="brady">Bradicardia esquemática</option></select><canvas id="ecgCanvas" width="800" height="300"></canvas><p class="caption">Trazados simplificados para estudio; no representan un ECG diagnóstico real.</p></article>
+          </div>
+        </div>
+
+        <div id="mega-specialcases" class="mega-pane hidden">
+          <article class="study-card"><div class="periodic-head"><div><span class="panel-tag">CASOS POR ESPECIALIDAD</span><h4>Práctica clínica guiada</h4></div><select id="specialtySelect"><option value="all">Todas</option><option>Cardiología</option><option>Pediatría</option><option>Urgencias</option><option>Endocrinología</option><option>Hematología</option><option>Infectología</option></select></div><div id="specialCaseBox"></div><div class="case-actions"><button id="specialCheck" class="btn btn-primary">Comprobar</button><button id="specialNext" class="btn btn-secondary">Otro caso</button></div><div id="specialFeedback" class="case-feedback hidden"></div></article>
+        </div>
+
+        <div id="mega-chemtools" class="mega-pane hidden">
+          <div class="study-grid two-col">
+            <article class="study-card"><span class="panel-tag">BALANCEO</span><h4>Balanceador de ecuaciones simples</h4><p>Escribe una reacción con fórmulas químicas, por ejemplo: H2 + O2 -> H2O.</p><input id="equationInput" type="text" placeholder="H2 + O2 -> H2O"><button id="balanceBtn" class="btn btn-primary full">Balancear</button><div id="balanceResult" class="study-result">Resultado: —</div></article>
+            <article class="study-card"><span class="panel-tag">GRÁFICOS QUÍMICOS</span><h4>Gas ideal P-V</h4><div class="inline-fields"><input id="gasN" type="number" value="1" step="any" placeholder="n mol"><input id="gasT" type="number" value="298" step="any" placeholder="T K"></div><button id="gasGraphBtn" class="btn btn-primary full">Graficar P-V</button><canvas id="chemCanvas" width="800" height="320"></canvas></article>
+          </div>
+        </div>
+
+        <div id="mega-converter" class="mega-pane hidden">
+          <article class="study-card"><span class="panel-tag">CONVERSOR CIENTÍFICO</span><h4>Presión, energía, volumen, temperatura, longitud, masa, velocidad y concentración</h4><div class="converter-grid"><select id="convType"><option value="pressure">Presión</option><option value="energy">Energía</option><option value="volume">Volumen</option><option value="temperature">Temperatura</option><option value="length">Longitud</option><option value="mass">Masa</option><option value="speed">Velocidad</option><option value="concentration">Concentración</option></select><input id="convValue" type="number" step="any" placeholder="Valor"><select id="convFrom"></select><select id="convTo"></select></div><button id="convertScientificBtn" class="btn btn-primary full">Convertir</button><div id="convResult" class="study-result">Resultado: —</div></article>
+        </div>
+
+        <div id="mega-flashcards" class="mega-pane hidden">
+          <div class="study-grid two-col"><article class="study-card"><span class="panel-tag">FLASHCARDS</span><h4 id="flashSubject">Tema</h4><div class="flashcard" id="flashCard"><strong id="flashFront"></strong><p id="flashBack" class="hidden"></p></div><div class="case-actions"><button id="showFlash" class="btn btn-primary">Mostrar respuesta</button><button id="flashAgain" class="btn btn-secondary">Repasar</button><button id="flashGood" class="btn btn-secondary">La sé</button></div></article><article class="study-card"><span class="panel-tag">FILTRO</span><h4>Materia</h4><select id="flashFilter"><option value="all">Todas</option><option>Matemáticas</option><option>Física</option><option>Química</option><option>Medicina</option><option>Microbiología</option><option>Genética</option><option>Bioquímica</option></select><div id="flashStats" class="study-result"></div></article></div>
+        </div>
+
+        <div id="mega-questions" class="mega-pane hidden">
+          <div class="study-grid two-col"><article class="study-card"><span class="panel-tag">BANCO DE PREGUNTAS</span><h4>Preguntas guardadas</h4><div class="inline-fields"><select id="qbSubject"><option value="all">Todas las materias</option></select><select id="qbDifficulty"><option value="all">Toda dificultad</option><option>Básico</option><option>Intermedio</option><option>Avanzado</option></select></div><div id="questionBankList" class="question-bank"></div></article><article class="study-card"><span class="panel-tag">CREAR PREGUNTA</span><h4>Agregar al banco</h4><input id="newQSubject" placeholder="Materia"><select id="newQDifficulty"><option>Básico</option><option>Intermedio</option><option>Avanzado</option></select><textarea id="newQText" placeholder="Pregunta"></textarea><input id="newQAnswer" placeholder="Respuesta correcta"><textarea id="newQExplanation" placeholder="Explicación"></textarea><button id="addQuestionBtn" class="btn btn-primary full">Guardar pregunta</button></article></div>
+        </div>
+
+        <div id="mega-teacher" class="mega-pane hidden">
+          <div class="mode-switch"><button id="teacherModeBtn" class="btn btn-primary">Modo profesor</button><button id="studentModeBtn" class="btn btn-secondary">Modo estudiante</button></div>
+          <div id="teacherPanel" class="study-grid two-col section-gap"><article class="study-card"><span class="panel-tag">PROFESOR</span><h4>Crear ejercicio</h4><input id="exerciseSubject" placeholder="Materia"><textarea id="exercisePrompt" placeholder="Enunciado del ejercicio"></textarea><input id="exerciseAnswer" placeholder="Respuesta esperada"><button id="saveExerciseBtn" class="btn btn-primary full">Guardar ejercicio</button></article><article class="study-card"><span class="panel-tag">EJERCICIOS</span><div id="exerciseList" class="question-bank"></div></article></div>
+          <div id="studentPanel" class="study-card hidden section-gap"><span class="panel-tag">ESTUDIANTE</span><h4 id="studentExerciseTitle">Ejercicio</h4><p id="studentExercisePrompt"></p><input id="studentAnswer" placeholder="Tu respuesta"><div class="case-actions"><button id="studentCheckBtn" class="btn btn-primary">Comprobar</button><button id="studentNextBtn" class="btn btn-secondary">Siguiente</button></div><div id="studentFeedback" class="case-feedback hidden"></div></div>
+        </div>
+
+        <div id="mega-notes" class="mega-pane hidden">
+          <article class="study-card"><span class="panel-tag">NOTAS DE ESTUDIO</span><h4>Apuntes dentro de NexoCiencia</h4><textarea id="studyNotes" class="notes-area" placeholder="Escribe tus apuntes, fórmulas, recordatorios o resumen de clase..."></textarea><div class="case-actions"><button id="saveNotesBtn" class="btn btn-primary">Guardar notas</button><button id="downloadNotesBtn" class="btn btn-secondary">Descargar .txt</button></div><div id="notesStatus" class="caption"></div></article>
+        </div>
+
+        <div id="mega-progress" class="mega-pane hidden">
+          <div id="progressCards" class="study-grid three-col"></div>
+        </div>
+
+        <div id="mega-favorites" class="mega-pane hidden">
+          <article class="study-card"><span class="panel-tag">FAVORITOS</span><h4>Fórmulas y herramientas guardadas</h4><button id="favoriteCurrentBtn" class="btn btn-primary">⭐ Guardar herramienta actual</button><div id="favoritesList" class="question-bank section-gap"></div></article>
+        </div>
+      </section>
+
+      <section id="historyPanel" class="history-panel hidden">
+        <div class="history-head">
+          <div>
+            <span class="eyebrow">HISTORIAL</span>
+            <h3>Cálculos recientes</h3>
+          </div>
+          <button id="clearHistory" class="btn btn-secondary">Borrar historial</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <footer class="footer">
+        <p><strong>NexoCiencia Lab</strong> • Herramienta educativa independiente. Los cálculos médicos y farmacológicos no sustituyen evaluación clínica, prescripción profesional ni protocolos institucionales.</p>
+        <p class="app-footer-links"><a href="https://nexociencia.blogspot.com/p/privacidad.html">Privacidad</a> · <a href="https://nexociencia.blogspot.com/p/terminos.html">Términos</a> · <a href="https://nexociencia.blogspot.com/p/aviso-medico.html">Aviso médico</a> · <a href="https://nexociencia.blogspot.com/p/contacto.html">Contacto</a></p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+
+const fmt = (n) => {
+  if (typeof n !== "number" || !Number.isFinite(n)) return String(n);
+  const abs = Math.abs(n);
+  if ((abs !== 0 && abs < 0.0001) || abs >= 1e7) return n.toExponential(6);
+  return Number(n.toFixed(8)).toString();
+};
+const rad = (deg) => deg * Math.PI / 180;
+const factorial = (n) => { let r=1; for(let i=2;i<=n;i++) r*=i; return r; };
+
+const formulaSheets = {
+  matematicas: [
+    ["Estadística", "media = Σx/n, varianza = Σ(x-μ)²/n", "Medidas de tendencia central y dispersión."],
+    ["Probabilidad", "P(A)=casos favorables/casos posibles", "Probabilidad clásica y combinatoria básica."],
+    ["Matrices", "det 2×2 = ad-bc", "Operaciones matriciales y determinantes."],
+    ["Geometría básica", "A = πr², C = 2πr, A_rect = b·h, A_tri = (b·h)/2", "Fórmulas frecuentes de áreas y perímetros."],
+    ["Potencias y raíces", "a^m · a^n = a^(m+n), √a = a^(1/2)", "Base para simplificación algebraica."],
+    ["Trigonometría", "sinθ = op/hip, cosθ = ady/hip, tanθ = op/ady", "Útil en triángulos rectángulos y vectores."],
+    ["Derivada de monomio", "d/dx(axⁿ) = a·n·xⁿ⁻¹", "Regla base del cálculo diferencial."],
+    ["Integral de monomio", "∫axⁿdx = a·xⁿ⁺¹/(n+1)", "Válida si n ≠ -1."]
+  ],
+  fisica: [
+    ["MRU", "v = d/t, d = v·t", "Movimiento rectilíneo uniforme: la velocidad es constante."],
+    ["MRUA", "a = (vf-vi)/t, vf = vi + at, d = vi·t + ½at²", "Movimiento con aceleración constante."],
+    ["Dinámica", "F = m·a, P = m·g", "Leyes fundamentales de Newton."],
+    ["Energía y trabajo", "W = F·d, P = W/t, Ec = ½mv², Ep = mgh", "Relación entre fuerza, movimiento y energía."],
+    ["Electricidad", "V = I·R, P = V·I", "Base de la ley de Ohm y potencia eléctrica."]
+  ],
+  quimica: [
+    ["Química orgánica", "Alcanos CₙH₂ₙ₊₂, alquenos CₙH₂ₙ, alquinos CₙH₂ₙ₋₂", "Fórmulas generales de hidrocarburos."],
+    ["Grupos funcionales", "-OH alcohol, -COOH ácido carboxílico, -CHO aldehído", "Identificación básica de funciones orgánicas."],
+    ["Cantidad de sustancia", "n = m/M", "Convierte masa a moles usando masa molar."],
+    ["Concentración", "M = n/V, m = mol/kg, N = eq/L", "Molaridad, molalidad y normalidad."],
+    ["Ácido-base", "pH = -log[H⁺], pOH = -log[OH⁻], pH + pOH = 14", "Relaciones fundamentales de equilibrio ácido-base."],
+    ["Diluciones", "M₁V₁ = M₂V₂", "Útil para preparar soluciones diluidas."],
+    ["Gases ideales", "PV = nRT", "Relaciona presión, volumen, temperatura y moles."],
+    ["Estequiometría", "m₂ = (m₁/M₁)(coef₂/coef₁)M₂", "Cálculos con relaciones molares."],
+    ["Rendimiento", "%R = real/teórico × 100", "Evalúa la eficiencia de una reacción."],
+    ["Titulación 1:1", "MₐVₐ = MᵦVᵦ", "Válida cuando la relación molar es 1:1."]
+  ],
+  clinica: [
+    ["Hemograma", "Hb, Hto, VCM, HCM, CHCM, leucocitos, plaquetas", "Ayuda a reconocer patrones hematológicos durante el estudio."],
+    ["Anemia por VCM", "VCM < 80 microcítica; 80–100 normocítica; >100 macrocítica", "Clasificación morfológica orientativa en adultos."],
+    ["Recuento absoluto", "células absolutas = leucocitos × porcentaje / 100", "Se aplica a neutrófilos, linfocitos y otros leucocitos."],
+    ["Gasometría", "pH, PaCO₂, HCO₃⁻", "La interpretación completa requiere contexto clínico y compensaciones."],
+    ["ABO/Rh", "compatibilidad depende del componente transfundido", "La herramienta incluida se limita a glóbulos rojos para estudio."],
+  ],
+  medicina: [
+    ["IMC", "IMC = peso/talla²", "Clasificación general del estado nutricional."],
+    ["PAM", "PAM = (PAS + 2·PAD)/3", "Aproximación de presión arterial media."],
+    ["Superficie corporal", "SC = √((talla·peso)/3600)", "Fórmula de Mosteller."],
+    ["Cockcroft-Gault", "CrCl = ((140-edad)·peso)/(72·Cr) × factor", "Factor = 0.85 en mujer."],
+    ["Brecha aniónica", "AG = Na - (Cl + HCO₃)", "Útil en evaluación ácido-base."],
+    ["Infusión", "mL/h = volumen/horas", "Velocidad de administración de líquidos."]
+  ],
+  conversiones: [
+    ["Masa", "lb = kg × 2.20462, kg = lb / 2.20462", "Conversión entre sistema métrico e imperial."],
+    ["Longitud", "in = cm / 2.54, cm = in × 2.54", "Unidades frecuentes."],
+    ["Volumen", "L = mL / 1000, mL = L × 1000", "Muy útil en laboratorio."],
+    ["Presión", "mmHg = atm × 760, atm = mmHg / 760", "Conversión usada en gases."]
+  ]
+};
+
+const data = {
+  matematicas: {
+    title: "Matemáticas",
+    description: "Aritmética, álgebra, geometría, trigonometría y cálculo.",
+    tools: [
+      {id:"sum",name:"Suma básica",formula:"R = a + b",fields:[["a","Número a"],["b","Número b"]],calculate:v=>v.a+v.b,steps:v=>`R = ${v.a} + ${v.b}`},
+      {id:"subtract",name:"Resta básica",formula:"R = a - b",fields:[["a","Número a"],["b","Número b"]],calculate:v=>v.a-v.b,steps:v=>`R = ${v.a} - ${v.b}`},
+      {id:"multiply",name:"Multiplicación",formula:"R = a × b",fields:[["a","Número a"],["b","Número b"]],calculate:v=>v.a*v.b,steps:v=>`R = ${v.a} × ${v.b}`},
+      {id:"divide",name:"División",formula:"R = a / b",fields:[["a","Número a"],["b","Número b"]],validate:v=>v.b!==0||"El divisor no puede ser 0.",calculate:v=>v.a/v.b,steps:v=>`R = ${v.a} / ${v.b}`},
+      {id:"percentage",name:"Porcentaje de una cantidad",formula:"R = (p/100) × n",fields:[["p","Porcentaje (%)"],["n","Cantidad"]],calculate:v=>(v.p/100)*v.n,steps:v=>`R = (${v.p}/100) × ${v.n}`},
+      {id:"rule3",name:"Regla de tres simple",formula:"x = (b × c)/a",fields:[["a","a"],["b","b"],["c","c"]],validate:v=>v.a!==0||"a no puede ser 0.",calculate:v=>(v.b*v.c)/v.a,steps:v=>`x = (${v.b} × ${v.c}) / ${v.a}`},
+      {id:"circleArea",name:"Área de un círculo",formula:"A = πr²",fields:[["r","Radio"]],calculate:v=>Math.PI*v.r**2,unit:"u²",steps:v=>`A = π × ${v.r}²`},
+      {id:"triangleArea",name:"Área de un triángulo",formula:"A = (b × h)/2",fields:[["b","Base"],["h","Altura"]],calculate:v=>(v.b*v.h)/2,unit:"u²",steps:v=>`A = (${v.b} × ${v.h}) / 2`},
+      {id:"rectangleArea",name:"Área de un rectángulo",formula:"A = b × h",fields:[["b","Base"],["h","Altura"]],calculate:v=>v.b*v.h,unit:"u²",steps:v=>`A = ${v.b} × ${v.h}`},
+      {id:"pythagoras",name:"Teorema de Pitágoras",formula:"c = √(a²+b²)",fields:[["a","Cateto a"],["b","Cateto b"]],calculate:v=>Math.sqrt(v.a**2+v.b**2),unit:"u",steps:v=>`c = √(${v.a}² + ${v.b}²)`},
+      {id:"linear",name:"Ecuación lineal",formula:"ax + b = 0 → x = -b/a",fields:[["a","a"],["b","b"]],validate:v=>v.a!==0||"a no puede ser 0.",calculate:v=>-v.b/v.a,steps:v=>`x = -(${v.b}) / ${v.a}`},
+      {id:"quadratic",name:"Ecuación cuadrática",formula:"x = (-b ± √(b²-4ac))/2a",fields:[["a","a"],["b","b"],["c","c"]],custom:v=>{if(v.a===0)return{error:"a no puede ser 0."};const d=v.b**2-4*v.a*v.c;if(d<0){const re=-v.b/(2*v.a),im=Math.sqrt(-d)/(2*Math.abs(v.a));return{result:`x₁ = ${fmt(re)} + ${fmt(im)}i ; x₂ = ${fmt(re)} - ${fmt(im)}i`,steps:`Discriminante = ${fmt(d)}. Las soluciones son complejas.`};}const x1=(-v.b+Math.sqrt(d))/(2*v.a),x2=(-v.b-Math.sqrt(d))/(2*v.a);return{result:`x₁ = ${fmt(x1)} ; x₂ = ${fmt(x2)}`,steps:`Discriminante = ${fmt(d)}`};}},
+      {id:"sin",name:"Seno",formula:"sin(θ)",fields:[["angle","Ángulo (grados)"]],calculate:v=>Math.sin(rad(v.angle)),steps:v=>`sin(${v.angle}°)`},
+      {id:"cos",name:"Coseno",formula:"cos(θ)",fields:[["angle","Ángulo (grados)"]],calculate:v=>Math.cos(rad(v.angle)),steps:v=>`cos(${v.angle}°)`},
+      {id:"tan",name:"Tangente",formula:"tan(θ)",fields:[["angle","Ángulo (grados)"]],calculate:v=>Math.tan(rad(v.angle)),steps:v=>`tan(${v.angle}°)`},
+      {id:"vectorMag",name:"Magnitud de vector 2D",formula:"|v| = √(x²+y²)",fields:[["x","Componente x"],["y","Componente y"]],calculate:v=>Math.sqrt(v.x**2+v.y**2),steps:v=>`|v| = √(${v.x}² + ${v.y}²)`},
+      {id:"dot",name:"Producto punto 2D",formula:"A·B = AxBx + AyBy",fields:[["ax","Ax"],["ay","Ay"],["bx","Bx"],["by","By"]],calculate:v=>v.ax*v.bx+v.ay*v.by,steps:v=>`A·B = (${v.ax}×${v.bx}) + (${v.ay}×${v.by})`},
+      {id:"derivativeMonomial",name:"Derivada de axⁿ",formula:"d/dx(axⁿ) = a·n·xⁿ⁻¹",note:"Calcula la derivada de un monomio y la evalúa en un valor de x.",fields:[["a","Coeficiente a"],["n","Exponente n"],["x","Valor de x"]],calculate:v=>v.a*v.n*(v.x**(v.n-1)),steps:v=>`f'(x) = ${v.a}·${v.n}·x^${v.n-1}\nf'(${v.x}) = ${fmt(v.a*v.n*(v.x**(v.n-1)))}`},
+      {id:"integralMonomial",name:"Integral definida de axⁿ",formula:"∫axⁿdx = a·xⁿ⁺¹/(n+1)",note:"Integral definida de un monomio. No usar con n = -1.",fields:[["a","Coeficiente a"],["n","Exponente n"],["x1","Límite inferior"],["x2","Límite superior"]],validate:v=>v.n!==-1||"Para n = -1 se requiere logaritmo natural.",calculate:v=>{const F=(x)=>v.a*(x**(v.n+1))/(v.n+1);return F(v.x2)-F(v.x1);},steps:v=>`F(x) = ${v.a}·x^${v.n+1}/${v.n+1}\nResultado = F(${v.x2}) - F(${v.x1})`},
+      {id:"mean",name:"Media aritmética (3 valores)",formula:"x̄ = (x₁+x₂+x₃)/3",fields:[["x1","x₁"],["x2","x₂"],["x3","x₃"]],calculate:v=>(v.x1+v.x2+v.x3)/3,steps:v=>`x̄ = (${v.x1}+${v.x2}+${v.x3})/3`},
+      {id:"variance3",name:"Varianza poblacional (3 valores)",formula:"σ² = Σ(x-μ)²/n",fields:[["x1","x₁"],["x2","x₂"],["x3","x₃"]],custom:v=>{const arr=[v.x1,v.x2,v.x3],m=arr.reduce((a,b)=>a+b,0)/3,va=arr.reduce((s,x)=>s+(x-m)**2,0)/3;return{result:fmt(va),steps:`Media = ${fmt(m)}\nVarianza = ${fmt(va)}`};}},
+      {id:"probability",name:"Probabilidad clásica",formula:"P = favorables/posibles",fields:[["fav","Casos favorables"],["tot","Casos posibles"]],validate:v=>v.tot>0||"Los casos posibles deben ser mayores que 0.",calculate:v=>v.fav/v.tot,unit:"",steps:v=>`P = ${v.fav}/${v.tot}`},
+      {id:"combination",name:"Combinaciones",formula:"C(n,r)=n!/[r!(n-r)!]",fields:[["n","n"],["r","r"]],validate:v=>(Number.isInteger(v.n)&&Number.isInteger(v.r)&&v.n>=0&&v.r>=0&&v.r<=v.n)||"n y r deben ser enteros válidos con 0 ≤ r ≤ n.",calculate:v=>factorial(v.n)/(factorial(v.r)*factorial(v.n-v.r)),steps:v=>`C(${v.n},${v.r}) = ${fmt(factorial(v.n)/(factorial(v.r)*factorial(v.n-v.r)))}`},
+      {id:"det2",name:"Determinante 2×2",formula:"det = ad - bc",fields:[["a","a"],["b","b"],["c","c"],["d","d"]],calculate:v=>v.a*v.d-v.b*v.c,steps:v=>`det = ${v.a}×${v.d} - ${v.b}×${v.c}`},
+      {id:"matrixAdd2",name:"Suma de matrices 2×2",formula:"A+B",fields:[["a1","A₁₁"],["a2","A₁₂"],["a3","A₂₁"],["a4","A₂₂"],["b1","B₁₁"],["b2","B₁₂"],["b3","B₂₁"],["b4","B₂₂"]],custom:v=>({result:`[[${fmt(v.a1+v.b1)}, ${fmt(v.a2+v.b2)}], [${fmt(v.a3+v.b3)}, ${fmt(v.a4+v.b4)}]]`,steps:"Suma elemento a elemento."})},
+      {id:"limitLinear",name:"Límite de función lineal",formula:"limₓ→a (mx+b) = ma+b",fields:[["m","m"],["b","b"],["a","Valor al que tiende x"]],calculate:v=>v.m*v.a+v.b,steps:v=>`Límite = ${v.m}×${v.a}+${v.b}`},
+      {id:"derivativePoly",name:"Derivada de ax³+bx²+cx+d",formula:"f'(x)=3ax²+2bx+c",fields:[["a","a"],["b","b"],["c","c"],["d","d"],["x","Evaluar en x"]],calculate:v=>3*v.a*v.x**2+2*v.b*v.x+v.c,steps:v=>`f'(x)=3(${v.a})x²+2(${v.b})x+${v.c}\nf'(${v.x})=${fmt(3*v.a*v.x**2+2*v.b*v.x+v.c)}`},
+      {id:"integralPoly",name:"Integral definida de ax²+bx+c",formula:"∫(ax²+bx+c)dx",fields:[["a","a"],["b","b"],["c","c"],["x1","Límite inferior"],["x2","Límite superior"]],calculate:v=>{const F=x=>v.a*x**3/3+v.b*x**2/2+v.c*x;return F(v.x2)-F(v.x1)},steps:v=>`F(x)=(${v.a}/3)x³+(${v.b}/2)x²+${v.c}x`}
+    ]
+  },
+  fisica: {
+    title: "Física",
+    description: "Movimiento, dinámica, trabajo, energía, presión, electricidad y gráficos.",
+    tools: [
+      {id:"velocity",name:"Velocidad",formula:"v = d/t",fields:[["d","Distancia (m)"],["t","Tiempo (s)"]],validate:v=>v.t!==0||"El tiempo no puede ser 0.",calculate:v=>v.d/v.t,unit:"m/s",steps:v=>`v = ${v.d} / ${v.t}`,graph:"mru"},
+      {id:"acceleration",name:"Aceleración media",formula:"a = (vf - vi)/t",fields:[["vf","Velocidad final (m/s)"],["vi","Velocidad inicial (m/s)"],["t","Tiempo (s)"]],validate:v=>v.t!==0||"El tiempo no puede ser 0.",calculate:v=>(v.vf-v.vi)/v.t,unit:"m/s²",steps:v=>`a = (${v.vf} - ${v.vi}) / ${v.t}`,graph:"acc"},
+      {id:"mruaDistance",name:"Distancia en MRUA",formula:"d = vi·t + ½at²",fields:[["vi","Velocidad inicial (m/s)"],["a","Aceleración (m/s²)"],["t","Tiempo (s)"]],calculate:v=>v.vi*v.t+0.5*v.a*v.t**2,unit:"m",steps:v=>`d = ${v.vi}·${v.t} + 0.5·${v.a}·${v.t}²`,graph:"mrua"},
+      {id:"force",name:"Fuerza",formula:"F = m·a",fields:[["m","Masa (kg)"],["a","Aceleración (m/s²)"]],calculate:v=>v.m*v.a,unit:"N",steps:v=>`F = ${v.m} × ${v.a}`,graph:"force"},
+      {id:"weight",name:"Peso",formula:"P = m·g",fields:[["m","Masa (kg)"],["g","Gravedad (m/s²)",9.81]],calculate:v=>v.m*v.g,unit:"N",steps:v=>`P = ${v.m} × ${v.g}`},
+      {id:"work",name:"Trabajo",formula:"W = F·d",fields:[["f","Fuerza (N)"],["d","Distancia (m)"]],calculate:v=>v.f*v.d,unit:"J",steps:v=>`W = ${v.f} × ${v.d}`},
+      {id:"power",name:"Potencia mecánica",formula:"P = W/t",fields:[["w","Trabajo (J)"],["t","Tiempo (s)"]],validate:v=>v.t!==0||"El tiempo no puede ser 0.",calculate:v=>v.w/v.t,unit:"W",steps:v=>`P = ${v.w} / ${v.t}`},
+      {id:"kinetic",name:"Energía cinética",formula:"Ec = ½mv²",fields:[["m","Masa (kg)"],["v","Velocidad (m/s)"]],calculate:v=>0.5*v.m*v.v**2,unit:"J",steps:v=>`Ec = 0.5 × ${v.m} × ${v.v}²`,graph:"kinetic"},
+      {id:"potential",name:"Energía potencial",formula:"Ep = mgh",fields:[["m","Masa (kg)"],["g","Gravedad (m/s²)",9.81],["h","Altura (m)"]],calculate:v=>v.m*v.g*v.h,unit:"J",steps:v=>`Ep = ${v.m} × ${v.g} × ${v.h}`},
+      {id:"pressure",name:"Presión",formula:"P = F/A",fields:[["f","Fuerza (N)"],["a","Área (m²)"]],validate:v=>v.a!==0||"El área no puede ser 0.",calculate:v=>v.f/v.a,unit:"Pa",steps:v=>`P = ${v.f} / ${v.a}`},
+      {id:"density",name:"Densidad",formula:"ρ = m/V",fields:[["m","Masa"],["v","Volumen"]],validate:v=>v.v!==0||"El volumen no puede ser 0.",calculate:v=>v.m/v.v,steps:v=>`ρ = ${v.m} / ${v.v}`},
+      {id:"ohm",name:"Ley de Ohm",formula:"V = I·R",fields:[["i","Corriente (A)"],["r","Resistencia (Ω)"]],calculate:v=>v.i*v.r,unit:"V",steps:v=>`V = ${v.i} × ${v.r}`,graph:"ohm"},
+      {id:"elecPower",name:"Potencia eléctrica",formula:"P = V·I",fields:[["v","Voltaje (V)"],["i","Corriente (A)"]],calculate:v=>v.v*v.i,unit:"W",steps:v=>`P = ${v.v} × ${v.i}`},
+      {id:"frequency",name:"Frecuencia",formula:"f = 1/T",fields:[["t","Período (s)"]],validate:v=>v.t!==0||"El período no puede ser 0.",calculate:v=>1/v.t,unit:"Hz",steps:v=>`f = 1 / ${v.t}`},
+      {id:"wave",name:"Velocidad de onda",formula:"v = f·λ",fields:[["f","Frecuencia (Hz)"],["l","Longitud de onda (m)"]],calculate:v=>v.f*v.l,unit:"m/s",steps:v=>`v = ${v.f} × ${v.l}`}
+    ]
+  },
+  quimica: {
+    title: "Química",
+    description: "Soluciones, ácido-base, gases, estequiometría, titulaciones y fórmulas organizadas.",
+    tools: [
+      {id:"moles",name:"Número de moles",formula:"n = m/M",fields:[["m","Masa (g)"],["M","Masa molar (g/mol)"]],validate:v=>v.M!==0||"La masa molar no puede ser 0.",calculate:v=>v.m/v.M,unit:"mol",steps:v=>`n = ${v.m} / ${v.M}`},
+      {id:"massFromMoles",name:"Masa desde moles",formula:"m = n·M",fields:[["n","Moles (mol)"],["M","Masa molar (g/mol)"]],calculate:v=>v.n*v.M,unit:"g",steps:v=>`m = ${v.n} × ${v.M}`},
+      {id:"molarity",name:"Molaridad",formula:"M = n/V",fields:[["n","Moles (mol)"],["v","Volumen (L)"]],validate:v=>v.v!==0||"El volumen no puede ser 0.",calculate:v=>v.n/v.v,unit:"mol/L",steps:v=>`M = ${v.n} / ${v.v}`},
+      {id:"molality",name:"Molalidad",formula:"m = mol/kg",fields:[["n","Moles de soluto"],["kg","Masa del solvente (kg)"]],validate:v=>v.kg!==0||"La masa del solvente no puede ser 0.",calculate:v=>v.n/v.kg,unit:"mol/kg",steps:v=>`m = ${v.n} / ${v.kg}`},
+      {id:"normality",name:"Normalidad",formula:"N = eq/L",fields:[["eq","Equivalentes"],["v","Volumen (L)"]],validate:v=>v.v!==0||"El volumen no puede ser 0.",calculate:v=>v.eq/v.v,unit:"N",steps:v=>`N = ${v.eq} / ${v.v}`},
+      {id:"dilution",name:"Dilución",formula:"M₁V₁ = M₂V₂",fields:[["m1","M₁"],["v1","V₁"],["m2","M₂"]],validate:v=>v.m2!==0||"M₂ no puede ser 0.",calculate:v=>(v.m1*v.v1)/v.m2,steps:v=>`V₂ = (${v.m1} × ${v.v1}) / ${v.m2}`},
+      {id:"ph",name:"pH desde [H⁺]",formula:"pH = -log₁₀[H⁺]",fields:[["h","[H⁺] (mol/L)"]],validate:v=>v.h>0||"[H⁺] debe ser mayor que 0.",calculate:v=>-Math.log10(v.h),steps:v=>`pH = -log₁₀(${v.h})`},
+      {id:"poh",name:"pOH desde [OH⁻]",formula:"pOH = -log₁₀[OH⁻]",fields:[["oh","[OH⁻] (mol/L)"]],validate:v=>v.oh>0||"[OH⁻] debe ser mayor que 0.",calculate:v=>-Math.log10(v.oh),steps:v=>`pOH = -log₁₀(${v.oh})`},
+      {id:"phFromPoh",name:"pH desde pOH",formula:"pH = 14 - pOH",note:"Aproximación a 25 °C.",fields:[["poh","pOH"]],calculate:v=>14-v.poh,steps:v=>`pH = 14 - ${v.poh}`},
+      {id:"hFromPh",name:"[H⁺] desde pH",formula:"[H⁺] = 10^-pH",fields:[["ph","pH"]],calculate:v=>10**(-v.ph),unit:"mol/L",steps:v=>`[H⁺] = 10^(-${v.ph})`},
+      {id:"particles",name:"Número de partículas",formula:"N = n·Nₐ",fields:[["n","Moles (mol)"]],calculate:v=>v.n*6.022e23,unit:"partículas",steps:v=>`N = ${v.n} × 6.022 × 10²³`},
+      {id:"idealGas",name:"Ley de gases ideales",formula:"PV = nRT → P = nRT/V",fields:[["n","Moles (mol)"],["t","Temperatura (K)"],["v","Volumen (L)"]],validate:v=>v.v!==0||"El volumen no puede ser 0.",calculate:v=>(v.n*0.082057*v.t)/v.v,unit:"atm",steps:v=>`P = (${v.n} × 0.082057 × ${v.t}) / ${v.v}`},
+      {id:"titration",name:"Titulación 1:1",formula:"MₐVₐ = MᵦVᵦ",note:"Úsala cuando la estequiometría ácido:base sea 1:1.",fields:[["ma","M ácido"],["va","V ácido"],["mb","M base"]],validate:v=>v.mb!==0||"M base no puede ser 0.",calculate:v=>(v.ma*v.va)/v.mb,steps:v=>`V base = (${v.ma} × ${v.va}) / ${v.mb}`},
+      {id:"stoichMass",name:"Estequiometría por masa",formula:"m₂ = (m₁/M₁)·(coef₂/coef₁)·M₂",note:"Masa teórica del compuesto 2 a partir del compuesto 1.",fields:[["m1","Masa sustancia 1 (g)"],["M1","Masa molar 1"],["c1","Coeficiente 1"],["c2","Coeficiente 2"],["M2","Masa molar 2"]],validate:v=>(v.M1!==0&&v.c1!==0)||"M1 y coeficiente 1 no pueden ser 0.",calculate:v=>(v.m1/v.M1)*(v.c2/v.c1)*v.M2,unit:"g",steps:v=>`m₂ = (${v.m1}/${v.M1}) × (${v.c2}/${v.c1}) × ${v.M2}`},
+      {id:"percentYield",name:"Rendimiento porcentual",formula:"%R = real/teórico × 100",fields:[["real","Rendimiento real"],["theo","Rendimiento teórico"]],validate:v=>v.theo!==0||"El rendimiento teórico no puede ser 0.",calculate:v=>(v.real/v.theo)*100,unit:"%",steps:v=>`%R = ${v.real} / ${v.theo} × 100`},
+      {id:"alkane",name:"Fórmula general de alcanos",formula:"CₙH₂ₙ₊₂",fields:[["n","Número de carbonos n"]],validate:v=>(Number.isInteger(v.n)&&v.n>=1)||"n debe ser un entero positivo.",custom:v=>({result:`C${v.n}H${2*v.n+2}`,steps:`Alcano: CₙH₂ₙ₊₂ → C${v.n}H${2*v.n+2}`})},
+      {id:"alkene",name:"Fórmula general de alquenos",formula:"CₙH₂ₙ",fields:[["n","Número de carbonos n"]],validate:v=>(Number.isInteger(v.n)&&v.n>=2)||"n debe ser un entero ≥ 2.",custom:v=>({result:`C${v.n}H${2*v.n}`,steps:`Alqueno: CₙH₂ₙ → C${v.n}H${2*v.n}`})},
+      {id:"alkyne",name:"Fórmula general de alquinos",formula:"CₙH₂ₙ₋₂",fields:[["n","Número de carbonos n"]],validate:v=>(Number.isInteger(v.n)&&v.n>=2)||"n debe ser un entero ≥ 2.",custom:v=>({result:`C${v.n}H${2*v.n-2}`,steps:`Alquino: CₙH₂ₙ₋₂ → C${v.n}H${2*v.n-2}`})},
+      {id:"henderson",name:"Henderson-Hasselbalch",formula:"pH = pKa + log([A⁻]/[HA])",fields:[["pka","pKa"],["a","[A⁻]"],["ha","[HA]"]],validate:v=>(v.a>0&&v.ha>0)||"Las concentraciones deben ser mayores que 0.",calculate:v=>v.pka+Math.log10(v.a/v.ha),steps:v=>`pH = ${v.pka} + log(${v.a}/${v.ha})`},
+      {id:"kaFromPh",name:"Ka aproximada desde pKa",formula:"Ka = 10^-pKa",fields:[["pka","pKa"]],calculate:v=>10**(-v.pka),steps:v=>`Ka = 10^(-${v.pka})`}
+    ]
+  },
+  clinica: {
+    title: "Clínica y Laboratorio",
+    description: "Sangre, hemograma, gasometría, grupos sanguíneos y práctica clínica educativa.",
+    tools: [
+      {id:"mcvAnemia",name:"Clasificación de anemia por VCM",formula:"VCM <80 microcítica · 80–100 normocítica · >100 macrocítica",note:"Clasificación morfológica orientativa. Debe interpretarse junto con Hb, Hto, reticulocitos, ferritina y contexto clínico.",fields:[["hb","Hemoglobina (g/dL)"],["mcv","VCM (fL)"]],custom:v=>{let type=v.mcv<80?"Microcítica":v.mcv>100?"Macrocítica":"Normocítica";return{result:`${type} — Hb ${fmt(v.hb)} g/dL`,steps:`VCM = ${fmt(v.mcv)} fL → ${type}. La presencia y gravedad de anemia dependen del rango de referencia aplicable.`};}},
+      {id:"anc",name:"Recuento absoluto de neutrófilos (ANC)",formula:"ANC = leucocitos × (% neutrófilos + % bandas)/100",fields:[["wbc","Leucocitos (/µL)"],["neut","Neutrófilos (%)"],["bands","Bandas (%)",0]],calculate:v=>v.wbc*(v.neut+v.bands)/100,unit:"/µL",steps:v=>`ANC = ${v.wbc} × (${v.neut}+${v.bands})/100`},
+      {id:"alc",name:"Recuento absoluto de linfocitos",formula:"ALC = leucocitos × % linfocitos / 100",fields:[["wbc","Leucocitos (/µL)"],["lym","Linfocitos (%)"]],calculate:v=>v.wbc*v.lym/100,unit:"/µL",steps:v=>`ALC = ${v.wbc} × ${v.lym}/100`},
+      {id:"hematocrit",name:"Estimación Hb ↔ hematocrito",formula:"Hto ≈ 3 × Hb",note:"Regla aproximada clásica; puede fallar en diversas situaciones clínicas.",fields:[["hb","Hemoglobina (g/dL)"]],calculate:v=>3*v.hb,unit:"% Hto aprox.",steps:v=>`Hto ≈ 3 × ${v.hb}`},
+      {id:"abgSimple",name:"Interpretación ácido-base básica",formula:"pH + PaCO₂ + HCO₃⁻",note:"Clasificación educativa inicial; no evalúa compensaciones completas ni trastornos mixtos.",fields:[["ph","pH"],["pco2","PaCO₂ (mmHg)"],["hco3","HCO₃⁻ (mEq/L)"]],custom:v=>{let primary="Patrón no concluyente";if(v.ph<7.35){if(v.pco2>45)primary="Acidosis respiratoria probable";else if(v.hco3<22)primary="Acidosis metabólica probable";}else if(v.ph>7.45){if(v.pco2<35)primary="Alcalosis respiratoria probable";else if(v.hco3>26)primary="Alcalosis metabólica probable";}else primary="pH dentro del intervalo habitual; revisar compensación o trastorno mixto";return{result:primary,steps:`pH=${v.ph}; PaCO₂=${v.pco2}; HCO₃⁻=${v.hco3}. Interpretación inicial solamente.`};}},
+      {id:"aboRbc",name:"Compatibilidad ABO/Rh de glóbulos rojos",formula:"Donante → receptor",note:"Solo para estudio de compatibilidad básica de glóbulos rojos. No sustituye tipificación, pruebas cruzadas ni protocolos de transfusión.",fields:[["donor","Donante: O-=1, O+=2, A-=3, A+=4, B-=5, B+=6, AB-=7, AB+=8"],["recipient","Receptor: O-=1, O+=2, A-=3, A+=4, B-=5, B+=6, AB-=7, AB+=8"]],custom:v=>{const labels={1:"O−",2:"O+",3:"A−",4:"A+",5:"B−",6:"B+",7:"AB−",8:"AB+"};const abo={1:"O",2:"O",3:"A",4:"A",5:"B",6:"B",7:"AB",8:"AB"};const rh={1:"-",2:"+",3:"-",4:"+",5:"-",6:"+",7:"-",8:"+"};if(!labels[v.donor]||!labels[v.recipient])return{error:"Usa códigos del 1 al 8 indicados en los campos."};const A=abo[v.donor],B=abo[v.recipient];const aboOK=A==="O"||A===B||(A==="A"&&B==="AB")||(A==="B"&&B==="AB");const rhOK=rh[v.donor]==="-"||rh[v.recipient]==="+";const ok=aboOK&&rhOK;return{result:`${labels[v.donor]} → ${labels[v.recipient]}: ${ok?"compatible en el modelo básico":"no compatible en el modelo básico"}`,steps:"Modelo simplificado para glóbulos rojos. En práctica real se requieren pruebas pretransfusionales y protocolos clínicos."};}},
+      {id:"correctedCalcium2",name:"Calcio corregido por albúmina",formula:"Ca corr = Ca + 0.8(4 - albúmina)",note:"Aproximación educativa; el calcio ionizado puede ser preferible en situaciones clínicas específicas.",fields:[["ca","Calcio total (mg/dL)"],["alb","Albúmina (g/dL)"]],calculate:v=>v.ca+0.8*(4-v.alb),unit:"mg/dL",steps:v=>`Ca corr = ${v.ca} + 0.8 × (4-${v.alb})`}
+    ]
+  },
+  medicina: {
+    title: "Medicina",
